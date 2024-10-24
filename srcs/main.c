@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:30:01 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:34:38 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	main(int argc, char *argv[])
 		if (valid_args(&data))
 		{
 			welcome();
-			attack();
+			setup_signal();
+			while (true)
+				attack();
 		}
 	}
 	return (0);
@@ -44,14 +46,9 @@ void	setup(char *argv[], t_data *data)
 
 void	attack(void)
 {
-	setupSignalHandlers();
-
-	while(true)
-	{
-
-	}
 }
-void	signalHandler(int signal)
+
+void	signal_handler(int signal)
 {
 	if (signal == SIGINT || signal == SIGTERM || signal == SIGTSTP)
 	{
@@ -60,15 +57,15 @@ void	signalHandler(int signal)
 	}
 }
 
-void	setupSignalHandlers(void)
+void	setup_signal(void)
 {
-	struct sigaction action;
-	ft_memset(&action, 0, sizeof(action));
-	action.sa_handler = signalHandler;
+	struct sigaction	action;
 
-	if (sigaction(SIGINT, &action, NULL) == -1 ||
-		sigaction(SIGTERM, &action, NULL) == -1 ||
-		sigaction(SIGTSTP, &action, NULL) == -1)
+	ft_memset(&action, 0, sizeof(action));
+	action.sa_handler = signal_handler;
+	if (sigaction(SIGINT, &action, NULL) == -1
+		|| sigaction(SIGTERM, &action, NULL) == -1
+		|| sigaction(SIGTSTP, &action, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(EXIT_FAILURE);

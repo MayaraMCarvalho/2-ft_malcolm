@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:27:41 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:34:01 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_data
 // main.c
 void	setup(char *argv[], t_data *data);
 void	attack(void);
-void	setupSignalHandlers(void);
-void	signalHandler(int signal);
+void	setup_signal(void);
+void	signal_handler(int signal);
 // info.c
 void	welcome(void);
 void	bye(void);
