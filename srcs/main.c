@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:34:38 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:36:51 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,5 @@ void	setup_signal(void)
 	if (sigaction(SIGINT, &action, NULL) == -1
 		|| sigaction(SIGTERM, &action, NULL) == -1
 		|| sigaction(SIGTSTP, &action, NULL) == -1)
-	{
-		perror("sigaction");
 		exit(EXIT_FAILURE);
-	}
 }
