@@ -6,18 +6,71 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 12:13:01 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:30:01 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-int main(int argc, char const *argv[])
+int	main(int argc, char *argv[])
 {
-	ft_strlen("Mayara");
-	if (argc < 5)
-		ft_printf("Error\n");
+	t_data	data;
+
+	if (argc != 5)
+	{
+		printf("%sError: insufficient argument number!\n", RED);
+		printf("\nUsage: ft_malcolm <Source IP> <Source MAC Address>");
+		printf(" <Target IP> <Target MAC Address>%s\n\n", RESET);
+	}
 	else
-		ft_printf("%s\n", argv[0]);
-	return 0;
+	{
+		setup(argv, &data);
+		if (valid_args(&data))
+		{
+			welcome();
+			attack();
+		}
+	}
+	return (0);
+}
+
+void	setup(char *argv[], t_data *data)
+{
+	data->source_ip = argv[1];
+	data->source_mac = argv[2];
+	data->target_ip = argv[3];
+	data->target_mac = argv[4];
+}
+
+void	attack(void)
+{
+	setupSignalHandlers();
+
+	while(true)
+	{
+
+	}
+}
+void	signalHandler(int signal)
+{
+	if (signal == SIGINT || signal == SIGTERM || signal == SIGTSTP)
+	{
+		bye();
+		exit(0);
+	}
+}
+
+void	setupSignalHandlers(void)
+{
+	struct sigaction action;
+	ft_memset(&action, 0, sizeof(action));
+	action.sa_handler = signalHandler;
+
+	if (sigaction(SIGINT, &action, NULL) == -1 ||
+		sigaction(SIGTERM, &action, NULL) == -1 ||
+		sigaction(SIGTSTP, &action, NULL) == -1)
+	{
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
 }

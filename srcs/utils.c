@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 15:40:05 by macarval          #+#    #+#             */
-/*   Updated: 2022/05/28 00:35:54 by macarval         ###   ########.fr       */
+/*   Created: 2024/10/24 16:24:35 by macarval          #+#    #+#             */
+/*   Updated: 2024/10/24 16:53:31 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "ft_malcolm.h"
 
-# include <stdlib.h>
-# include <unistd.h>
+int	counter(char **list)
+{
+	int	i;
+	int	size;
 
-# include "libft.h"
-
-# define BUFFER_SIZE	25
-
-char	*get_next_line(int fd);
-int		ft_find(char *str);
-char	*create_rest(char *line, char *final);
-char	*create_line(char *str);
-char	*create_buf(int fd, char *rest);
-
-#endif
+	i = -1;
+	size = 0;
+	while (list[++i])
+		size++;
+	return (size);
+}

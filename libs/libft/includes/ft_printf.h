@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef ft_printf_H
+# define ft_printf_H
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
 
-#include "libft.h"
+# include "libft.h"
 
 void	ft_putnbr(int nb, int *cont);
 void	ft_putchar(char c, int *cont);
