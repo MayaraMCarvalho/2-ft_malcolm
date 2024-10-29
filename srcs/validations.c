@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:17:44 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:47:12 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	valid_args(t_data	*data)
 {
 	if (!valid_ip(data->source_ip) || !valid_ip(data->target_ip)
 		|| !valid_mac(data->source_mac) || !valid_mac(data->target_mac))
-		return (false);
-	return (true);
+		return (FALSE);
+	return (TRUE);
 }
 
 int	valid_ip(const char *ip)
@@ -36,7 +36,7 @@ int	valid_ip(const char *ip)
 		if (num < 0 || num > 255)
 			return (ip_error(ip));
 	}
-	return (true);
+	return (TRUE);
 }
 
 int	valid_mac(const char *mac)
@@ -55,5 +55,5 @@ int	valid_mac(const char *mac)
 		if (ft_strlen(list[i]) != 2)
 			return (mac_error(mac));
 	}
-	return (true);
+	return (TRUE);
 }

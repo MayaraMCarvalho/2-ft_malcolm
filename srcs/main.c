@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:36:51 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:46:56 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char *argv[])
 		{
 			welcome();
 			setup_signal();
-			while (true)
+			while (TRUE)
 				attack();
 		}
 	}
