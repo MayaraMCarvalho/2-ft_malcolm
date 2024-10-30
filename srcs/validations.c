@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/29 14:47:12 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:07:15 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	valid_mac(const char *mac)
 {
 	char	**list;
 	int		i;
+
 
 	i = 0;
 	if (ft_strlen(mac) != 17)

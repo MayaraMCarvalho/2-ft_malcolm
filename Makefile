@@ -6,13 +6,13 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2024/10/24 16:25:10 by macarval         ###   ########.fr        #
+#    Updated: 2024/10/30 14:10:28 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_malcolm
 
-SRCS		= main.c info.c utils.c validations.c
+SRCS		= main.c info.c setup.c utils.c validations.c
 
 VPATH		= srcs/
 OBJS_PATH	= obj
