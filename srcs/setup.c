@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/31 17:00:10 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:14:24 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ void	setup_socket(void)
 	int		sock_fd;
 
 	sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
+	//Instalar máquina virtual a partir daqui.
+	
 	if (sock_fd < 0)
 	{
 		printf("%s ft_malcolm: Socket creation failed!%s\n", RED, RESET);
 		exit(EXIT_FAILURE);
 	}
+	printf("Socket aberto!\n");
 	// Montar pacotes
 	// sendto(sock_fd, packet, packet_size, 0, (struct sockaddr *)&addr, sizeof(addr));
 	// recvfrom(sock_fd, buffer, sizeof(buffer), 0, NULL, NULL);
