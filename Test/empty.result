@@ -1,4 +1,0 @@
-[31;1mError: insufficient argument number!
-
-Usage: ft_malcolm <Source IP> <Source MAC Address> <Target IP> <Target MAC Address>[0m
-
