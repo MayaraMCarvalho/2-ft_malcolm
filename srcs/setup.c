@@ -6,70 +6,56 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/30 17:06:42 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:00:10 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-void	setup(char *argv[], t_data *data)
+void	setup(char *argv[], t_data *data, t_arp *arp)
 {
 	data->source_ip = argv[1];
 	data->source_mac = argv[2];
 	data->target_ip = argv[3];
 	data->target_mac = argv[4];
-	setup_mac(data->source_mac, g_arp.sha);
-	setup_ip(data->source_ip, g_arp.spa);
-	setup_mac(data->target_mac, g_arp.tha);
-	setup_ip(data->target_ip, g_arp.tpa);
+	setup_arp(data->source_mac, arp->sha, SIZE_MAC);
+	setup_arp(data->source_ip, arp->spa, SIZE_IP);
+	setup_arp(data->target_mac, arp->tha, SIZE_MAC);
+	setup_arp(data->target_ip, arp->tpa, SIZE_IP);
 }
 
-void	setup_mac(const char *info, unsigned char *mac)
+void	setup_arp(const char *info, unsigned char *arp, int add)
 {
 	char	**list;
 	int		i;
-	// char	new_mac[6];
+	char	c;
+	char	*type;
 
-	i = -1;
-	list = ft_split(info, ':');
-	while (list[++i])
-		printf("mac[%i]: %s\n", i, list[i]);
-		// new_mac[i] = (char)list[i];
-	// ft_strlcpy((char *)mac, new_mac, 6);
-	if(mac)
-	{}
-	free_split(&list);
-}
-
-void	setup_ip(const char *info, unsigned char *ip)
-{
-	char	**list;
-	int		i;
-
-	i = -1;
-
-	list = ft_split(info, '.');
-	while (list[++i])
+	c = ':';
+	type = "%hhx";
+	if (add == SIZE_IP)
 	{
-		ip[i] = ft_atoi(list[i]);
+		c = '.';
+		type = "%hhi";
 	}
-	printf("ip: %hhn\n", ip);
+	i = -1;
+	list = ft_split(info, c);
+	while (list[++i])
+		sscanf(list[i], type, &arp[i]);
 	free_split(&list);
 }
 
 void	setup_socket(void)
 {
-	// int		sock_fd;
+	int		sock_fd;
 
-	// sock_fd = socket(AF_INET, SOCK_STREAM, htons(ETH_P_ARP));
-	// if (sockfd < 0)
-	// {
-	// 	strerror("socket creation failed");
-	// 	exit(EXIT_FAILURE);
-	// }
-
-	// // Montar pacotes
-
+	sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
+	if (sock_fd < 0)
+	{
+		printf("%s ft_malcolm: Socket creation failed!%s\n", RED, RESET);
+		exit(EXIT_FAILURE);
+	}
+	// Montar pacotes
 	// sendto(sock_fd, packet, packet_size, 0, (struct sockaddr *)&addr, sizeof(addr));
 	// recvfrom(sock_fd, buffer, sizeof(buffer), 0, NULL, NULL);
 }
@@ -85,4 +71,3 @@ void	setup_signal(void)
 		|| sigaction(SIGTSTP, &action, NULL) == -1)
 		exit(EXIT_FAILURE);
 }
-

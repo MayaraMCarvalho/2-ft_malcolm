@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/30 17:07:15 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/31 09:41:27 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,22 @@ int	valid_ip(const char *ip)
 	char	**list;
 	int		i;
 	int		num;
+	int		error;
 
+	error = FALSE;
 	list = ft_split(ip, '.');
 	if (counter(list) < 4)
-		return (ip_error(ip));
+		error = TRUE;
 	i = -1;
-	while (list[++i])
+	while (!error && list[++i])
 	{
 		num = ft_atoi(list[i]);
 		if (num < 0 || num > 255)
-			return (ip_error(ip));
+			error = TRUE;
 	}
+	free_split(&list);
+	if (error)
+		return (ip_error(ip));
 	return (TRUE);
 }
 
@@ -43,18 +48,22 @@ int	valid_mac(const char *mac)
 {
 	char	**list;
 	int		i;
-
+	int		error;
 
 	i = 0;
+	error = FALSE;
 	if (ft_strlen(mac) != 17)
 		return (mac_error(mac));
 	list = ft_split(mac, ':');
 	if (counter(list) < 6)
-		return (mac_error(mac));
-	while (list[++i])
+		error = TRUE;
+	while (!error && list[++i])
 	{
 		if (ft_strlen(list[i]) != 2)
-			return (mac_error(mac));
+			error = TRUE;
 	}
+	free_split(&list);
+	if (error)
+		return (mac_error(mac));
 	return (TRUE);
 }

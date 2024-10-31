@@ -6,17 +6,16 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/30 14:10:15 by macarval         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:13:58 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-struct arphdr	g_arp;
-
 int	main(int argc, char *argv[])
 {
 	t_data	data;
+	t_arp	arp;
 
 	if (argc != 5)
 	{
@@ -26,7 +25,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		setup(argv, &data);
+		setup(argv, &data, &arp);
 		if (valid_args(&data))
 		{
 			welcome();
