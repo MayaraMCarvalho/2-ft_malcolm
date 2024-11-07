@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/31 16:13:58 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/07 08:22:06 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	t_arp	arp;
 
 	if (argc != 5)
 	{
@@ -25,8 +24,8 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		setup(argv, &data, &arp);
-		if (valid_args(&data))
+		setup(argv, &data);
+		if (valid_data(&data))
 		{
 			welcome();
 			setup_socket();

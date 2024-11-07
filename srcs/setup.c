@@ -6,42 +6,45 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/31 17:14:24 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:00:36 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-void	setup(char *argv[], t_data *data, t_arp *arp)
+void	setup(char *argv[], t_data *data)
 {
 	data->source_ip = argv[1];
 	data->source_mac = argv[2];
 	data->target_ip = argv[3];
 	data->target_mac = argv[4];
-	setup_arp(data->source_mac, arp->sha, SIZE_MAC);
-	setup_arp(data->source_ip, arp->spa, SIZE_IP);
-	setup_arp(data->target_mac, arp->tha, SIZE_MAC);
-	setup_arp(data->target_ip, arp->tpa, SIZE_IP);
+	set_mac(data->source_mac, data->arp.sha);
+	set_ip(data->source_ip, data->arp.spa);
+	set_mac(data->target_mac, data->arp.tha);
+	set_ip(data->target_ip, data->arp.tpa);
 }
 
-void	setup_arp(const char *info, unsigned char *arp, int add)
+void	set_mac(const char *info, unsigned char *mac)
 {
 	char	**list;
 	int		i;
-	char	c;
-	char	*type;
 
-	c = ':';
-	type = "%hhx";
-	if (add == SIZE_IP)
-	{
-		c = '.';
-		type = "%hhi";
-	}
 	i = -1;
-	list = ft_split(info, c);
+	list = ft_split(info, ':');
 	while (list[++i])
-		sscanf(list[i], type, &arp[i]);
+		sscanf(list[i], "%hhx", &mac[i]);
+	free_split(&list);
+}
+
+void	set_ip(const char *info, unsigned char *ip)
+{
+	char	**list;
+	int		i;
+
+	i = -1;
+	list = ft_split(info, '.');
+	while (list[++i])
+		sscanf(list[i], "%hhi", &ip[i]);
 	free_split(&list);
 }
 
@@ -51,11 +54,11 @@ void	setup_socket(void)
 
 	sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 	//Instalar máquina virtual a partir daqui.
-	
+
 	if (sock_fd < 0)
 	{
 		printf("%s ft_malcolm: Socket creation failed!%s\n", RED, RESET);
-		exit(EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
 	}
 	printf("Socket aberto!\n");
 	// Montar pacotes

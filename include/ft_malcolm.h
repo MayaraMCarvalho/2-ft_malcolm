@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/31 16:33:29 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/07 08:27:01 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 # include <arpa/inet.h> // inet_pton, inet_ntop, inet_addr, htons, ntohs
 # include <string.h> // strerror
 // # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
-# include <net/if.h> // if_nametoindex
+// # include <net/if.h> // if_nametoindex
 // # include <unistd.h> // sleep, getuid, close
 // # include <netdb.h> // gethostbyname, getaddrinfo, freeaddrinfo, gai_strerror
 // # include <ifaddrs.h> // getifaddrs, freeifaddrs
-
 
 # include "colors.h"
 # include "libft.h"
@@ -64,7 +63,7 @@ typedef struct s_data
 	const char		*source_ip;
 	const char		*target_mac;
 	const char		*target_ip;
-
+	t_arp			arp;
 }	t_data;
 
 // main.c
@@ -78,16 +77,17 @@ int		ip_error(const char *ip);
 int		mac_error(const char *mac);
 
 // setup.c
-void	setup(char *argv[], t_data *data, t_arp *arp);
-void	setup_arp(const char *info, unsigned char *arp, int add);
+void	setup(char *argv[], t_data *data);
+void	set_mac(const char *info, unsigned char *mac);
+void	set_ip(const char *info, unsigned char *ip);
 void	setup_socket(void);
 void	setup_signal(void);
 
 // utils.c
-int		counter(char **list);
+int		count_args(char **args);
 
 // validations.c
-int		valid_args(t_data	*data);
+int		valid_data(t_data	*data);
 int		valid_ip(const char *ip);
 int		valid_mac(const char *mac);
 
