@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malcolm.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/07 08:27:01 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:16:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
 # include <signal.h> // sigaction, signal
 # include <arpa/inet.h> // inet_pton, inet_ntop, inet_addr, htons, ntohs
 # include <string.h> // strerror
+# include <ifaddrs.h> // getifaddrs, freeifaddrs
+# include <net/if.h> // if_nametoindex
+
+
 // # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
-// # include <net/if.h> // if_nametoindex
 // # include <unistd.h> // sleep, getuid, close
 // # include <netdb.h> // gethostbyname, getaddrinfo, freeaddrinfo, gai_strerror
-// # include <ifaddrs.h> // getifaddrs, freeifaddrs
+// 
 
 # include "colors.h"
 # include "libft.h"
@@ -30,7 +33,11 @@
 # define FALSE 0
 # define SIZE_MAC 6
 # define SIZE_IP 4
+
 # define ETH_P_ARP 0x0806
+# define ETH_ALEN 6
+
+extern int	g_sock_fd;
 
 typedef struct s_arp
 {
@@ -57,6 +64,28 @@ typedef struct s_arp
 	tpa		-> Target protocol address
 */
 
+typedef struct s_addr
+{
+    unsigned short	sll_family;
+    unsigned short	sll_protocol;
+    int				sll_ifindex;
+    unsigned short	sll_hatype;
+    unsigned char	sll_pkttype;
+    unsigned char	sll_halen;
+    unsigned char	sll_addr[8];
+}	t_addr;
+
+/*
+	sll_family	-> Always AF_PACKET
+	sll_protocol-> Protocol (e.g., ETH_P_ARP)
+	sll_ifindex	-> Network interface index
+	sll_hatype	-> Hadware address type
+	sll_pkttype	-> Packet type
+	sll_halen	-> Hardware address length
+	sll_addr	-> Hardware (MAC) address
+*/
+
+
 typedef struct s_data
 {
 	const char		*source_mac;
@@ -75,13 +104,18 @@ void	welcome(void);
 void	bye(void);
 int		ip_error(const char *ip);
 int		mac_error(const char *mac);
+void	fatal_error(char *msg);
 
 // setup.c
 void	setup(char *argv[], t_data *data);
 void	set_mac(const char *info, unsigned char *mac);
 void	set_ip(const char *info, unsigned char *ip);
-void	setup_socket(void);
 void	setup_signal(void);
+
+// socket.c
+void	connection(void);
+int		get_index_if(void);
+char    *get_name_if(void);
 
 // utils.c
 int		count_args(char **args);

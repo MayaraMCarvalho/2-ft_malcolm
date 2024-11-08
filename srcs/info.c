@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   info.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2024/10/24 17:10:13 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:24:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,12 @@ int	mac_error(const char *mac)
 	printf("ft_malcolm: invalid mac address (%s)\n", mac);
 	printf("%s", RESET);
 	return (0);
+}
+
+void	fatal_error(char *msg)
+{
+	printf("%s%s\n%s", RED, msg, RESET);
+	if (g_sock_fd >= 0)
+		close(g_sock_fd);
+	exit(EXIT_FAILURE);
 }

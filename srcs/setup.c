@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/05 15:00:36 by macarval         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:47:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,7 @@ void	set_ip(const char *info, unsigned char *ip)
 	free_split(&list);
 }
 
-void	setup_socket(void)
-{
-	int		sock_fd;
 
-	sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
-	//Instalar máquina virtual a partir daqui.
-
-	if (sock_fd < 0)
-	{
-		printf("%s ft_malcolm: Socket creation failed!%s\n", RED, RESET);
-		// exit(EXIT_FAILURE);
-	}
-	printf("Socket aberto!\n");
-	// Montar pacotes
-	// sendto(sock_fd, packet, packet_size, 0, (struct sockaddr *)&addr, sizeof(addr));
-	// recvfrom(sock_fd, buffer, sizeof(buffer), 0, NULL, NULL);
-}
 
 void	setup_signal(void)
 {

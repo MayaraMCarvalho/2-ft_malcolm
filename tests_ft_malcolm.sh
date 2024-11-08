@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Run tests for CPP-01-ex04
-# Usage: make test -OU- make && ./run_tests.sh
+export LC_NUMERIC="C"
 
 # Colors
 red='[31;1m'

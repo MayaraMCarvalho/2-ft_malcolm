@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2024/10/30 14:10:28 by macarval         ###   ########.fr        #
+#    Updated: 2024/11/07 15:40:05 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_malcolm
 
-SRCS		= main.c info.c setup.c utils.c validations.c
+SRCS		= main.c info.c setup.c socket.c utils.c validations.c
 
 VPATH		= srcs/
 OBJS_PATH	= obj
