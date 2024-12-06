@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/07 15:47:03 by user42           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:54:38 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	set_ip(const char *info, unsigned char *ip)
 		sscanf(list[i], "%hhi", &ip[i]);
 	free_split(&list);
 }
-
-
 
 void	setup_signal(void)
 {

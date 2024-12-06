@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malcolm.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/08 12:16:05 by user42           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:53:23 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 # include <ifaddrs.h> // getifaddrs, freeifaddrs
 # include <net/if.h> // if_nametoindex
 
-
 // # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
 // # include <unistd.h> // sleep, getuid, close
 // # include <netdb.h> // gethostbyname, getaddrinfo, freeaddrinfo, gai_strerror
-// 
+//
 
 # include "colors.h"
 # include "libft.h"
