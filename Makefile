@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
+#    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2024/11/07 15:40:05 by user42           ###   ########.fr        #
+#    Updated: 2024/12/06 15:55:37 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,7 @@ git:
 			read msg; \
 			echo -n "\n"; \
 			echo "$(BBLUE)"; \
-			git commit -m "[ft_irc] $$type: $$msg"; \
+			git commit -m "[$(NAME)] $$type: $$msg"; \
 			git push
 
 .PHONY:		all re clean fclean comp val git
