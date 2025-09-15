@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2024/12/06 15:55:37 by macarval         ###   ########.fr        #
+#    Updated: 2025/09/15 16:51:22 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ $(OBJS_PATH)/%.o: %.c
 
 clean:
 			@make -sC $(LIBFT_PATH) clean
-			@rm -rf $(OBJS_PATH)
+			@rm -rf $(OBJS_PATH) Test
 			@echo "$(CYAN)$(NAME): $(GREEN)Clean done!$(RESET)"
 
 fclean:		clean
