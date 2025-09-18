@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 17:29:28 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:16:35 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,12 @@ typedef struct s_data
 	const char		*source_ip;
 	const char		*target_mac;
 	const char		*target_ip;
+	int				if_index;
 	t_arp			arp;
 }	t_data;
 
 // main.c
 void	attack(t_data *data);
-void	create_packet(const char *target_mac);
-void	receive_packet (void);
 void	signal_handler(int signal);
 
 // info.c
@@ -105,6 +104,11 @@ int		ip_error(const char *ip);
 int		mac_error(const char *mac);
 void	fatal_error(char *msg);
 
+// packet.c
+void	send_packet(t_data *data);
+void	create_packet(unsigned char* packet, t_data *data);
+void	receive_packet (void);
+
 // setup.c
 void	setup(char *argv[], t_data *data);
 void	set_mac(const char *info, unsigned char *mac);
@@ -112,9 +116,10 @@ void	set_ip(const char *info, unsigned char *ip);
 void	setup_signal(void);
 
 // socket.c
-void	connection(void);
+void	connection(t_data *data);
 int		get_index_if(void);
 char	*get_name_if(void);
+void	get_name_interface(struct ifaddrs *ifa, char *name);
 
 // utils.c
 int		count_args(char **args);
