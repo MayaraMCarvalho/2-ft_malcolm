@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   info.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/07 17:24:34 by user42           ###   ########.fr       */
+/*   Updated: 2025/09/18 17:25:20 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ip_error(const char *ip)
 	printf("%s", RED);
 	printf("ft_malcolm: unknown host or invalid IP address (%s)\n", ip);
 	printf("%s", RESET);
+
 	return (0);
 }
 
@@ -67,6 +68,7 @@ int	mac_error(const char *mac)
 	printf("%s", RED);
 	printf("ft_malcolm: invalid mac address (%s)\n", mac);
 	printf("%s", RESET);
+
 	return (0);
 }
 
@@ -75,5 +77,6 @@ void	fatal_error(char *msg)
 	printf("%s%s\n%s", RED, msg, RESET);
 	if (g_sock_fd >= 0)
 		close(g_sock_fd);
+
 	exit(EXIT_FAILURE);
 }

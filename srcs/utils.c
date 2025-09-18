@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:24:35 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 13:09:15 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:24:13 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	count_args(char **args)
 	size = 0;
 	while (args[++i])
 		size++;
+
 	return (size);
 }
 
@@ -36,5 +37,6 @@ int	is_hex(const char *str)
 				|| (str[i] >= 'A' && str[i] <= 'F')))
 			return (FALSE);
 	}
+
 	return (TRUE);
 }

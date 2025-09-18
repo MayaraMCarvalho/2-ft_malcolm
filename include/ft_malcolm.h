@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 15:26:12 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:29:28 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ typedef struct s_data
 }	t_data;
 
 // main.c
-void	attack(void);
+void	attack(t_data *data);
+void	create_packet(const char *target_mac);
+void	receive_packet (void);
 void	signal_handler(int signal);
 
 // info.c
