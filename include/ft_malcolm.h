@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 13:04:39 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 15:26:12 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@
 # include <ifaddrs.h> // getifaddrs, freeifaddrs
 # include <net/if.h> // if_nametoindex
 
-// # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
-// # include <unistd.h> // sleep, getuid, close
-// # include <netdb.h> // gethostbyname, getaddrinfo, freeaddrinfo, gai_strerror
-//
+# include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
+# include <unistd.h> // sleep, getuid, close
+# include <netdb.h> // gethostbyname, getaddrinfo, freeaddrinfo, gai_strerror
 
-# include "colors.h"
 # include "libft.h"
+# include "colors.h"
 
 # define TRUE 1
 # define FALSE 0
@@ -65,13 +64,13 @@ typedef struct s_arp
 
 typedef struct s_addr
 {
-    unsigned short	sll_family;
-    unsigned short	sll_protocol;
-    int				sll_ifindex;
-    unsigned short	sll_hatype;
-    unsigned char	sll_pkttype;
-    unsigned char	sll_halen;
-    unsigned char	sll_addr[8];
+	unsigned short	sll_family;
+	unsigned short	sll_protocol;
+	int				sll_ifindex;
+	unsigned short	sll_hatype;
+	unsigned char	sll_pkttype;
+	unsigned char	sll_halen;
+	unsigned char	sll_addr[8];
 }	t_addr;
 
 /*
@@ -83,7 +82,6 @@ typedef struct s_addr
 	sll_halen	-> Hardware address length
 	sll_addr	-> Hardware (MAC) address
 */
-
 
 typedef struct s_data
 {
@@ -114,7 +112,7 @@ void	setup_signal(void);
 // socket.c
 void	connection(void);
 int		get_index_if(void);
-char    *get_name_if(void);
+char	*get_name_if(void);
 
 // utils.c
 int		count_args(char **args);

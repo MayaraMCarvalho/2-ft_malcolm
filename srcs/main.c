@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2024/11/08 12:15:59 by user42           ###   ########.fr       */
+/*   Updated: 2025/09/18 16:27:45 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,21 @@ int	main(int argc, char *argv[])
 
 void	attack(void)
 {
-	// Resto do seu código...
+	// int		sent;
+	char		buffer[1024];
+	t_addr		client_addr;
+	socklen_t	addr_len = sizeof(client_addr);
+	ssize_t		bytes;
 
-	// Montar pacotes
-	// sendto(g_sock_fd, packet, packet_size, 0, (struct sockaddr *)&addr, sizeof(addr));
-	// recvfrom(g_sock_fd, buffer, sizeof(buffer), 0, NULL, NULL);
+	// sent = sendto(g_sock_fd, packet, packet_size, 0, (struct sockaddr *)&addr, sizeof(addr));
+	// if (sent == -1)
+	// 	fatal_error("ft_malcolm: sendto failed!");
+
+	bytes = recvfrom(g_sock_fd, buffer, sizeof(buffer), 0,
+			(struct sockaddr *)&client_addr, &addr_len);
+
+	buffer[bytes] = '\0';
+	printf("Received %zd bytes\nBuffer: %s\n", bytes, buffer);
 }
 
 void	signal_handler(int signal)
