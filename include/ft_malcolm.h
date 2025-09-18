@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2024/12/06 15:53:23 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 13:04:39 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char    *get_name_if(void);
 
 // utils.c
 int		count_args(char **args);
+int		is_hex(const char *str);
 
 // validations.c
 int		valid_data(t_data	*data);

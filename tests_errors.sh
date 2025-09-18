@@ -24,8 +24,7 @@ mkdir -p Test
 
 # Create Test files_______________________________________________________________
 
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo "----------------------------- FT_MALCOLM TEST -----------------------------"
 echo "---------------------------------------------------------------------------"
 echo "Creating test files..."
@@ -35,6 +34,7 @@ echo "ip_error1.result..."
 echo "ip_error2.result..."
 echo "mac_error1.result..."
 echo "mac_error2.result..."
+echo "mac_error3.result..."
 echo "---------------------------------------------------------------------------"
 
 echo "${red}Error: insufficient argument number!
@@ -47,6 +47,7 @@ echo -ne "${red}ft_malcolm: unknown host or invalid IP address (10.11.11.1181)\n
 
 echo -ne "${red}ft_malcolm: invalid mac address (aa:bb:cc:dd:eee:ff)\n${reset}" > ./Test/mac_error1.result
 echo -ne "${red}ft_malcolm: invalid mac address (aaa:bb:cc:dd:ee:ff)\n${reset}" > ./Test/mac_error2.result
+echo -ne "${red}ft_malcolm: invalid mac address (1Z:12:34:56:78:90)\n${reset}" > ./Test/mac_error3.result
 
 # Initialize counters
 total_tests=0
@@ -57,30 +58,25 @@ test_number=0
 
 # Run tests_______________________________________________________________________
 
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo "Running tests..."
 echo "---------------------------------------------------------------------------"
 
 # Test 1
 ((total_tests++))
-echo -e "${blue}\n"
-echo "---------------------------------------------------------------------------"
-echo -e "${blue}"
-echo "--------------------------------- Test 1 ----------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 1 ----------------------------------"
 echo "Test for empty parameters..."
 echo "---------------------------------------------------------------------------"
 echo -en "${gray}"
 echo "${PROGRAM}"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo -e "${purple}Output expected: "
 cat ./Test/empty.result
 echo -e "${yellow}Output result: "
 ${PROGRAM} "" > ./Test/empty.output
 ${PROGRAM}
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 if [ $? -eq 0 ]; then
 	diff_output=$(diff Test/empty.result Test/empty.output)
 	if [ -z "$diff_output" ]; then
@@ -90,28 +86,23 @@ if [ $? -eq 0 ]; then
 		echo -e "${red}❌ Failed${reset}"
 	fi
 fi
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 
 # Test 2
 ((total_tests++))
-echo -e "${blue}\n"
-echo "---------------------------------------------------------------------------"
-echo -e "${blue}"
-echo "--------------------------------- Test 2 ----------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 2 ----------------------------------"
 echo "Test for parameters with erros..."
 echo "---------------------------------------------------------------------------"
 echo -en "${gray}"
 echo "${PROGRAM} 10.11.11.11 aa:bb:cc:dd:ee:ff 10.11.1991.111 aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo -e "${purple}Output expected: "
 cat ./Test/ip_error1.result
 echo -e "${yellow}\nOutput result: "
 ${PROGRAM} "10.11.11.11" "aa:bb:cc:dd:ee:ff" "10.11.1991.111" "aa:bb:cc:dd:ee:ff" > ./Test/ip_error1.output
 ${PROGRAM} "10.11.11.11" "aa:bb:cc:dd:ee:ff" "10.11.1991.111" "aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 if [ $? -eq 0 ]; then
 	diff_output=$(diff Test/ip_error1.result Test/ip_error1.output)
 	if [ -z "$diff_output" ]; then
@@ -121,28 +112,23 @@ if [ $? -eq 0 ]; then
 		echo -e "${red}❌ Failed${reset}"
 	fi
 fi
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 
 # Test 3
 ((total_tests++))
-echo -e "${blue}\n"
-echo "---------------------------------------------------------------------------"
-echo -e "${blue}"
-echo "--------------------------------- Test 3 ----------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 3 ----------------------------------"
 echo "Test for parameters with erros..."
 echo "---------------------------------------------------------------------------"
 echo -en "${gray}"
 echo "${PROGRAM} 10.11.11.1181 aa:bb:cc:dd:ee:ff 10.11.11.111 aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo -e "${purple}Output expected: "
 cat ./Test/ip_error2.result
 echo -e "${yellow}\nOutput result: "
 ${PROGRAM} "10.11.11.1181" "aa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:ee:ff" > ./Test/ip_error2.output
 ${PROGRAM} "10.11.11.1181" "aa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 if [ $? -eq 0 ]; then
 	diff_output=$(diff Test/ip_error2.result Test/ip_error2.output)
 	if [ -z "$diff_output" ]; then
@@ -152,28 +138,23 @@ if [ $? -eq 0 ]; then
 		echo -e "${red}❌ Failed${reset}"
 	fi
 fi
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 
 # Test 4
 ((total_tests++))
-echo -e "${blue}\n"
-echo "---------------------------------------------------------------------------"
-echo -e "${blue}"
-echo "--------------------------------- Test 4 ----------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 4 ----------------------------------"
 echo "Test for parameters with erros..."
 echo "---------------------------------------------------------------------------"
 echo -en "${gray}"
 echo "${PROGRAM} 10.11.11.11 aa:bb:cc:dd:ee:ff 10.11.11.111 aa:bb:cc:dd:eee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo -e "${purple}Output expected: "
 cat ./Test/mac_error1.result
 echo -e "${yellow}\nOutput result: "
 ${PROGRAM} "10.11.11.11" "aa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:eee:ff" > ./Test/mac_error1.output
 ${PROGRAM} "10.11.11.11" "aa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:eee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 if [ $? -eq 0 ]; then
 	diff_output=$(diff Test/mac_error1.result Test/mac_error1.output)
 	if [ -z "$diff_output" ]; then
@@ -183,28 +164,23 @@ if [ $? -eq 0 ]; then
 		echo -e "${red}❌ Failed${reset}"
 	fi
 fi
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 
 # Test 5
 ((total_tests++))
-echo -e "${blue}\n"
-echo "---------------------------------------------------------------------------"
-echo -e "${blue}"
-echo "--------------------------------- Test 5 ----------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 5 ----------------------------------"
 echo "Test for parameters with erros..."
 echo "---------------------------------------------------------------------------"
 echo -en "${gray}"
 echo "${PROGRAM} 10.11.11.11 aaa:bb:cc:dd:ee:ff 10.11.11.111 aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo -e "${purple}Output expected: "
 cat ./Test/mac_error2.result
 echo -e "${yellow}\nOutput result: "
 ${PROGRAM} "10.11.11.11" "aaa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:ee:ff" > ./Test/mac_error2.output
 ${PROGRAM} "10.11.11.11" "aaa:bb:cc:dd:ee:ff" "10.11.11.111" "aa:bb:cc:dd:ee:ff"
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}\n---------------------------------------------------------------------------"
 if [ $? -eq 0 ]; then
 	diff_output=$(diff Test/mac_error2.result Test/mac_error2.output)
 	if [ -z "$diff_output" ]; then
@@ -214,11 +190,35 @@ if [ $? -eq 0 ]; then
 		echo -e "${red}❌ Failed${reset}"
 	fi
 fi
-echo -e "${blue}"
-echo "---------------------------------------------------------------------------"
+echo -e "${blue}---------------------------------------------------------------------------"
 
-echo -e "${blue}"
+# Test 6
+((total_tests++))
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${blue}--------------------------------- Test 6 ----------------------------------"
+echo "Test for parameters with erros..."
 echo "---------------------------------------------------------------------------"
+echo -en "${gray}"
+echo "${PROGRAM} 10.11.11.11 1Z:12:34:56:78:90 10.11.11.111 aa:bb:cc:dd:ee:ff"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+echo -e "${purple}Output expected: "
+cat ./Test/mac_error3.result
+echo -e "${yellow}\nOutput result: "
+${PROGRAM} "10.11.11.11" "1Z:12:34:56:78:90" "10.11.11.111" "aa:bb:cc:dd:ee:ff" > ./Test/mac_error3.output
+${PROGRAM} "10.11.11.11" "1Z:12:34:56:78:90" "10.11.11.111" "aa:bb:cc:dd:ee:ff"
+echo -e "${blue}\n---------------------------------------------------------------------------"
+if [ $? -eq 0 ]; then
+	diff_output=$(diff Test/mac_error3.result Test/mac_error3.output)
+	if [ -z "$diff_output" ]; then
+		echo -e "${green}✅ Passed${reset}"
+		((successful_tests++))
+	else
+		echo -e "${red}❌ Failed${reset}"
+	fi
+fi
+echo -e "${blue}---------------------------------------------------------------------------"
+
+echo -e "${blue}\n---------------------------------------------------------------------------"
 echo "Tests finished..."
 echo -e "---------------------------------------------------------------------------${reset}"
 
