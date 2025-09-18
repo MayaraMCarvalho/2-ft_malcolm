@@ -66,10 +66,35 @@ void	receive_packet (void)
 	if (bytes == -1)
 		fatal_error("ft_malcolm: recvfrom failed!");
 
-	// Excluir depois dos testes
-	printf("Received %zd bytes\n", bytes);
-	printf("Data: \n");
-	for (ssize_t i = 0; i < bytes; ++i)
-		printf("%02x ", (unsigned char)buffer[i]);
-	printf("\n");
+	if (bytes >= 42 && verify_buffer(buffer, 0, 5, 0xff)
+		&& buffer[12] == 0x08 && buffer[13] == 0x06
+		&& buffer[20] == 0x00 && buffer[21] == 0x01)
+	{
+		// Excluir depois dos testes
+		printf("ARP Request de broadcast recebido!\n");
+
+		printf("Received %zd bytes\n", bytes);
+
+		printf("Data: \n");
+		print_packet(buffer, 0, bytes - 1, ' ');
+
+		printf("MAC de origem: \n");
+		print_packet(buffer, 6, 11, ':');
+
+		printf("IP de origem: \n");
+		print_packet(buffer, 28, 31, '.');
+	}
+}
+
+void print_packet(char *buffer, int init_range, int end_range, char delimeter)
+{
+	int	i;
+
+	if (init_range > end_range)
+		return;
+
+	i = init_range - 1;
+	while (++i < end_range)
+		printf("%02x%c", (unsigned char)buffer[i], delimeter);
+	printf("%02x\n", (unsigned char)buffer[i]);
 }

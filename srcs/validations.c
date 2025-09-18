@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 17:24:29 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:56:17 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,21 @@ int	valid_mac(const char *mac)
 	if (error)
 		return (mac_error(mac));
 
+	return (TRUE);
+}
+
+int	verify_buffer(char *buffer, int init_range, int end_range, char byte)
+{
+	int	i;
+
+	if (init_range > end_range)
+		return (FALSE);
+
+	i = init_range - 1;
+	while (++i <= end_range)
+	{
+		if (buffer[i] != byte)
+			return (FALSE);
+	}
 	return (TRUE);
 }

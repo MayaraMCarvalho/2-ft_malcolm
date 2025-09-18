@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 18:16:35 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:51:21 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	fatal_error(char *msg);
 void	send_packet(t_data *data);
 void	create_packet(unsigned char* packet, t_data *data);
 void	receive_packet (void);
+void	print_packet(char *buffer, int init_range, int end_range, char delimeter);
 
 // setup.c
 void	setup(char *argv[], t_data *data);
@@ -129,5 +130,6 @@ int		is_hex(const char *str);
 int		valid_data(t_data	*data);
 int		valid_ip(const char *ip);
 int		valid_mac(const char *mac);
+int		verify_buffer(char *buffer, int init_range, int end_range, char byte);
 
 #endif
