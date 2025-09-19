@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 18:16:13 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:17:43 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,6 @@ typedef struct __attribute__((packed)) s_arp
 	uint8_t		target_mac[ETH_ALEN];	// Target hardware address (MAC)
 	uint8_t		target_ip[INET4_LEN];	// Target protocol address (IP)
 }	t_arp;
-
-// typedef struct __attribute__((packed)) s_addr
-// {
-// 	uint16_t	sll_family;		// Always AF_PACKET
-// 	uint16_t	sll_protocol;	// Protocol (e.g., ETH_P_ARP)
-// 	int			sll_ifindex;	// Network interface index
-// 	uint16_t	sll_hatype;		// Hadware address type
-// 	uint8_t		sll_pkttype;	// Packet type
-// 	uint8_t		sll_halen;		// Hardware address length
-// 	uint8_t		sll_addr[8];	// Hardware (MAC) address
-// }	t_addr;
 
 typedef struct __attribute__((packed)) s_eth_hdr
 {

@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:48 by user42            #+#    #+#             */
-/*   Updated: 2025/09/19 17:34:01 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:24:12 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,10 @@
 
 void	connection(void)
 {
-	struct sockaddr_ll	sock_addr;
-
 	g_data.if_index = get_index_if();
 	g_data.sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 	if (g_data.sock_fd < 0)
 		fatal_error("ft_malcolm: failed to get socket descriptor!");
-
-	ft_memset(&sock_addr, 0, sizeof(struct sockaddr));
-	sock_addr.sll_family = AF_PACKET;
-	sock_addr.sll_protocol = htons(ETH_P_ARP);
-	sock_addr.sll_ifindex = g_data.if_index;
-	sock_addr.sll_halen = ETH_ALEN;
-
-	if (bind(g_data.sock_fd, (struct sockaddr *)&sock_addr, sizeof(struct sockaddr)) < 0)
-		fatal_error("ft_malcolm: bind failed!");
 }
 
 int	get_index_if(void)
