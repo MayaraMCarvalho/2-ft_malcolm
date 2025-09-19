@@ -23,7 +23,7 @@ void	ft_pdi(va_list res, char j, int *cont)
 	ft_putnbr(num, cont);
 }
 
-int	ft_p_spaceplus(va_list res, const char *str, int i, int *cont)
+int	ft_p_sender_ipceplus(va_list res, const char *str, int i, int *cont)
 {
 	char		j;
 	int			k;
@@ -67,7 +67,7 @@ int	ft_format_plus(va_list res, const char *str, int i, int *cont)
 		}
 	}
 	else if (str[i] == ' ' || str[i] == '+')
-		i = ft_p_spaceplus(res, str, i, cont);
+		i = ft_p_sender_ipceplus(res, str, i, cont);
 	else
 		ft_putchar(str[i], cont);
 	return (i);

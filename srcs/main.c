@@ -6,18 +6,16 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 18:16:01 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 17:35:27 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-int	g_sock_fd = -1;
+t_data	g_data;
 
 int	main(int argc, char *argv[])
 {
-	t_data	data;
-
 	if (argc != 5)
 	{
 		printf("%sError: insufficient argument number!\n", RED);
@@ -26,33 +24,29 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		setup(argv, &data);
-		if (valid_data(&data))
+		setup(argv);
+		if (valid_data())
 		{
 			welcome();
-			connection(&data);
+			connection();
 			setup_signal();
-			while (TRUE)
-			{
-				attack(&data);
-				sleep(1);
-			}
+			attack();
 		}
 	}
 	return (0);
 }
 
-void	attack(t_data *data)
+void	attack(void)
 {
-	send_packet(data);
 	receive_packet();
+	send_packet();
 }
 
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT || signal == SIGTERM || signal == SIGTSTP)
 	{
-		close(g_sock_fd);
+		close(g_data.sock_fd);
 		bye();
 		exit(0);
 	}

@@ -12,65 +12,72 @@
 
 #include "ft_malcolm.h"
 
-void	send_packet(t_data *data)
+void	send_packet(void)
 {
-	unsigned char	packet[42];
-	t_addr			addr;
+	struct sockaddr_ll	addr;
+	uint8_t				frame[14 + sizeof(t_arp)];
 
-	create_packet(packet, data);
 
-	memset(&addr, 0, sizeof(addr));
+	create_packet();
+	create_frame(frame);
+
+	ft_memset(&addr, 0, sizeof(struct sockaddr));
 	addr.sll_family = AF_PACKET;
 	addr.sll_protocol = htons(ETH_P_ARP);
-	addr.sll_ifindex = data->if_index;
+	addr.sll_ifindex = g_data.if_index;
 	addr.sll_halen = ETH_ALEN;
-	memcpy(addr.sll_addr, data->target_mac, 6);
+	ft_memcpy(addr.sll_addr, g_data.target_mac, ETH_ALEN);
 
-	if (sendto(g_sock_fd, packet, sizeof(packet), 0,
-			(struct sockaddr *)&addr, sizeof(addr)) == -1)
-		fatal_error("ft_malcolm: sendto failed!");
+	if (sendto(g_data.sock_fd, frame, sizeof(frame), 0,
+			(struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
+		fatal_error("ft_malcolm: failed to send ARP packet!");
 }
 
-void create_packet(unsigned char* packet, t_data *data)
+void	create_frame(uint8_t *frame)
 {
-	memcpy(packet, data->target_mac, 6);
-	memcpy(packet + 6, data->source_mac, 6);
+	t_eth_hdr	*eth;
+	t_arp		*arp_payload;
 
-	packet[12] = 0x08;
-	packet[13] = 0x06;
-	packet[14] = 0x00;
-	packet[15] = 0x01;
-	packet[16] = 0x08;
-	packet[17] = 0x00;
-	packet[18] = 6;
-	packet[19] = 4;
-	packet[20] = 0x00;
-	packet[21] = 0x01;
+	eth = (t_eth_hdr *)frame;
+	arp_payload = (t_arp *)(frame + 14);
+	ft_memcpy(eth->dst_mac, g_data.arp.target_mac, ETH_ALEN);
+	ft_memcpy(eth->src_mac, g_data.arp.sender_mac, ETH_ALEN);
+	eth->ethertype = htons(ETH_P_ARP);
 
-	memcpy(packet + 22, data->source_mac, 6);
-	memcpy(packet + 28, data->source_ip, 4);
-	memcpy(packet + 32, data->target_mac, 6);
-	memcpy(packet + 38, data->target_ip, 4);
+	ft_memcpy(arp_payload, &g_data.arp, sizeof(t_arp));
+}
+
+void	create_packet(void)
+{
+	g_data.arp.htype = htons(1);
+	g_data.arp.ptype = htons(0x0800);
+	g_data.arp.hlen = ETH_ALEN;
+	g_data.arp.plen = INET4_LEN;
+	g_data.arp.opcode = htons(2);
+
+	ft_memcpy(g_data.arp.target_mac, g_data.target_mac, ETH_ALEN);
+	ft_memcpy(g_data.arp.target_ip, g_data.target_ip, INET4_LEN);
 }
 
 void	receive_packet (void)
 {
-	char		buffer[1024];
-	t_addr		client_addr;
-	socklen_t	addr_len = sizeof(client_addr);
-	ssize_t		bytes;
+	char				buffer[1024];
+	struct sockaddr_ll	client_addr;
+	socklen_t			addr_len;
+	ssize_t				bytes;
 
-	bytes = recvfrom(g_sock_fd, buffer, sizeof(buffer), 0,
+	addr_len = sizeof(client_addr);
+	bytes = recvfrom(g_data.sock_fd, buffer, sizeof(buffer), 0,
 			(struct sockaddr *)&client_addr, &addr_len);
 
 	if (bytes == -1)
-		fatal_error("ft_malcolm: recvfrom failed!");
+		fatal_error("ft_malcolm: failed to receive packet!");
 
+	// Excluir depois dos testes
 	if (bytes >= 42 && verify_buffer(buffer, 0, 5, 0xff)
 		&& buffer[12] == 0x08 && buffer[13] == 0x06
 		&& buffer[20] == 0x00 && buffer[21] == 0x01)
 	{
-		// Excluir depois dos testes
 		printf("ARP Request de broadcast recebido!\n");
 
 		printf("Received %zd bytes\n", bytes);
@@ -95,6 +102,6 @@ void print_packet(char *buffer, int init_range, int end_range, char delimeter)
 
 	i = init_range - 1;
 	while (++i < end_range)
-		printf("%02x%c", (unsigned char)buffer[i], delimeter);
-	printf("%02x\n", (unsigned char)buffer[i]);
+		printf("%02x%c", (uint8_t)buffer[i], delimeter);
+	printf("%02x\n", (uint8_t)buffer[i]);
 }

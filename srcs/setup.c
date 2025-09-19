@@ -6,26 +6,26 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 17:25:44 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 17:45:44 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-void	setup(char *argv[], t_data *data)
+void	setup(char *argv[])
 {
-	data->source_ip = argv[1];
-	data->source_mac = argv[2];
-	data->target_ip = argv[3];
-	data->target_mac = argv[4];
+	g_data.source_ip = argv[1];
+	g_data.source_mac = argv[2];
+	g_data.target_ip = argv[3];
+	g_data.target_mac = argv[4];
 
-	set_mac(data->source_mac, data->arp.sha);
-	set_ip(data->source_ip, data->arp.spa);
-	set_mac(data->target_mac, data->arp.tha);
-	set_ip(data->target_ip, data->arp.tpa);
+	set_mac(g_data.source_mac, g_data.arp.sender_mac);
+	set_ip(g_data.source_ip, g_data.arp.sender_ip);
+	set_mac(g_data.target_mac, g_data.arp.target_mac);
+	set_ip(g_data.target_ip, g_data.arp.target_ip);
 }
 
-void	set_mac(const char *info, unsigned char *mac)
+void	set_mac(const char *info, uint8_t *mac)
 {
 	char	**list;
 	int		i;
@@ -33,12 +33,12 @@ void	set_mac(const char *info, unsigned char *mac)
 	i = -1;
 	list = ft_split(info, ':');
 	while (list[++i])
-		sscanf(list[i], "%hhx", &mac[i]);
+		sscanf(list[i], "%2hhx", &mac[i]);
 
 	free_split(&list);
 }
 
-void	set_ip(const char *info, unsigned char *ip)
+void	set_ip(const char *info, uint8_t *ip)
 {
 	char	**list;
 	int		i;
@@ -46,7 +46,7 @@ void	set_ip(const char *info, unsigned char *ip)
 	i = -1;
 	list = ft_split(info, '.');
 	while (list[++i])
-		sscanf(list[i], "%hhi", &ip[i]);
+		sscanf(list[i], "%hhu", &ip[i]);
 
 	free_split(&list);
 }

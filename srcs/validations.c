@@ -6,16 +6,16 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 18:56:17 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 17:37:02 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-int	valid_data(t_data	*data)
+int	valid_data(void)
 {
-	if (!valid_ip(data->source_ip) || !valid_ip(data->target_ip)
-		|| !valid_mac(data->source_mac) || !valid_mac(data->target_mac))
+	if (!valid_ip(g_data.source_ip) || !valid_ip(g_data.target_ip)
+		|| !valid_mac(g_data.source_mac) || !valid_mac(g_data.target_mac))
 		return (FALSE);
 
 	return (TRUE);
@@ -30,7 +30,7 @@ int	valid_ip(const char *ip)
 
 	error = FALSE;
 	list = ft_split(ip, '.');
-	error = (count_args(list) < 4);
+	error = (count_args(list) != 4);
 	i = -1;
 	while (!error && list[++i])
 	{

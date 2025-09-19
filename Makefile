@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/09/18 18:26:42 by macarval         ###   ########.fr        #
+#    Updated: 2025/09/19 16:39:00 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ git:
 			echo "$(BYELLOW)1. feat: $(WHITE)Adds a new feature to your codebase"; \
 			echo "$(BYELLOW)2. fix: $(WHITE)Solves a problem in your codebase"; \
 			echo "$(BYELLOW)3. docs: $(WHITE)Documentation changes"; \
-			echo "$(BYELLOW)4. style: $(WHITE)Formatting, spacing, etc."; \
+			echo "$(BYELLOW)4. style: $(WHITE)Formatting, sender_ipcing, etc."; \
 			echo "$(BYELLOW)5. refactor: $(WHITE)Refactoring code used in production, e.g. renaming a variable"; \
 			echo "$(BYELLOW)6. test: $(WHITE)Adding tests, refactoring tests"; \
 			echo "$(BYELLOW)7. chore: $(WHITE)Adjust build script, updating dependencies, makefile etc"; \

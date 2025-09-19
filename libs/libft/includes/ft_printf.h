@@ -29,7 +29,7 @@ void	ft_puthex(long int nb, char c, int *cont);
 void	ft_pdi(va_list res, char j, int *cont);
 void	ft_puthexun(unsigned long int nb, char c, int *cont);
 int		ft_format(va_list res, const char *str, int i, int *cont);
-int		ft_p_spaceplus(va_list res, const char *str, int i, int *cont);
+int		ft_p_sender_ipceplus(va_list res, const char *str, int i, int *cont);
 int		ft_format_plus(va_list res, const char *str, int i, int *cont);
 
 #endif

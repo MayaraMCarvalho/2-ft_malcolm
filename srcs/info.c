@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 17:25:20 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/19 17:38:12 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ip_error(const char *ip)
 	printf("ft_malcolm: unknown host or invalid IP address (%s)\n", ip);
 	printf("%s", RESET);
 
-	return (0);
+	return (FALSE);
 }
 
 int	mac_error(const char *mac)
@@ -69,14 +69,17 @@ int	mac_error(const char *mac)
 	printf("ft_malcolm: invalid mac address (%s)\n", mac);
 	printf("%s", RESET);
 
-	return (0);
+	return (FALSE);
 }
 
 void	fatal_error(char *msg)
 {
-	printf("%s%s\n%s", RED, msg, RESET);
-	if (g_sock_fd >= 0)
-		close(g_sock_fd);
+	int err;
+
+	err = errno;
+	fprintf(stderr, "%s%s (%s)\n%s", RED, msg, strerror(err), RESET);
+	if (g_data.sock_fd >= 0)
+		close(g_data.sock_fd);
 
 	exit(EXIT_FAILURE);
 }
