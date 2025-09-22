@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 17:38:12 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:06:53 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	fatal_error(char *msg)
 	int err;
 
 	err = errno;
-	fprintf(stderr, "%s%s (%s)\n%s", RED, msg, strerror(err), RESET);
+	fprintf(stderr, "%sft_malcolm: %s%s (%s)\n%s",
+			YELLOW, RED, msg, strerror(err), RESET);
 	if (g_data.sock_fd >= 0)
 		close(g_data.sock_fd);
 

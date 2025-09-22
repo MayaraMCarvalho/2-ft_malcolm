@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:48 by user42            #+#    #+#             */
-/*   Updated: 2025/09/19 18:24:12 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:06:20 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	connection(void)
 	g_data.if_index = get_index_if();
 	g_data.sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 	if (g_data.sock_fd < 0)
-		fatal_error("ft_malcolm: failed to get socket descriptor!");
+		fatal_error("Failed to get socket descriptor!");
 }
 
 int	get_index_if(void)
@@ -29,7 +29,7 @@ int	get_index_if(void)
 	index_if = if_nametoindex(name);
 	free(name);
 	if (!index_if)
-		fatal_error("ft_malcolm: failed to obtain interface index!");
+		fatal_error("Failed to obtain interface index!");
 
 	return (index_if);
 }
@@ -40,13 +40,13 @@ char	*get_name_if(void)
 	char			*name;
 
 	if (getifaddrs(&ifaddr) == -1)
-		fatal_error("ft_malcolm: error getting network interfaces!");
+		fatal_error("Error getting network interfaces!");
 
 	name = ft_calloc(IF_NAMESIZE, sizeof(char));
 	if (!name)
 	{
 		freeifaddrs(ifaddr);
-		fatal_error("ft_malcolm: memory allocation failed!");
+		fatal_error("Memory allocation failed!");
 	}
 
 	get_name_interface(ifaddr, name);
@@ -55,7 +55,7 @@ char	*get_name_if(void)
 	if (name[0] == '\0')
 	{
 		free(name);
-		fatal_error("ft_malcolm: no valid network interface found!");
+		fatal_error("No valid network interface found!");
 	}
 
 	return (name);

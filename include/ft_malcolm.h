@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 18:17:43 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:42:28 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@
 
 typedef struct __attribute__((packed)) s_arp
 {
-	uint16_t	htype;			// Hardware type (1 for Ethernet)
-	uint16_t	ptype;			// Protocol type (0x0800 for IP)
-	uint8_t		hlen;			// Hardware address length (MAC)
-	uint8_t		plen;			// Protocol address length (IP)
-	uint16_t	opcode;			// Operation (1 for request/2 for reply)
+	uint16_t	htype;					// Hardware type (1 for Ethernet)
+	uint16_t	ptype;					// Protocol type (0x0800 for IP)
+	uint8_t		hlen;					// Hardware address length (MAC)
+	uint8_t		plen;					// Protocol address length (IP)
+	uint16_t	opcode;					// Operation (1 for request/2 for reply)
 	uint8_t		sender_mac[ETH_ALEN];	// Sender hardware address (MAC)
 	uint8_t		sender_ip[INET4_LEN];	// Sender protocol address (IP)
 	uint8_t		target_mac[ETH_ALEN];	// Target hardware address (MAC)
@@ -70,6 +70,7 @@ typedef struct s_data
 	const char	*source_ip;
 	const char	*target_mac;
 	const char	*target_ip;
+	const char	*flag;
 	int			sock_fd;
 	int			if_index;
 	t_arp		arp;
@@ -96,7 +97,7 @@ void	receive_packet (void);
 void	print_packet(char *buffer, int init_range, int end_range, char delimeter);
 
 // setup.c
-void	setup(char *argv[]);
+void	setup(char *argv[], int argc);
 void	set_mac(const char *info, uint8_t *mac);
 void	set_ip(const char *info, uint8_t *ip);
 void	setup_signal(void);
@@ -116,5 +117,6 @@ int		valid_data(void);
 int		valid_ip(const char *ip);
 int		valid_mac(const char *mac);
 int		verify_buffer(char *buffer, int init_range, int end_range, char byte);
+int		valid_flag(const char *flag);
 
 #endif

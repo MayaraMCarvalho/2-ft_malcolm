@@ -6,18 +6,20 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 17:45:44 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:24:51 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-void	setup(char *argv[])
+void	setup(char *argv[], int argc)
 {
 	g_data.source_ip = argv[1];
 	g_data.source_mac = argv[2];
 	g_data.target_ip = argv[3];
 	g_data.target_mac = argv[4];
+	if (argc == 6)
+		g_data.flag = argv[5];
 
 	set_mac(g_data.source_mac, g_data.arp.sender_mac);
 	set_ip(g_data.source_ip, g_data.arp.sender_ip);

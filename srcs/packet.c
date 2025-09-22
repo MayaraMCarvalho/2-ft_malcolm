@@ -30,7 +30,7 @@ void	send_packet(void)
 
 	if (sendto(g_data.sock_fd, frame, sizeof(frame), 0,
 			(struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
-		fatal_error("ft_malcolm: failed to send ARP packet!");
+		fatal_error("Failed to send ARP packet!");
 }
 
 void	create_frame(uint8_t *frame)
@@ -71,7 +71,7 @@ void	receive_packet (void)
 			(struct sockaddr *)&client_addr, &addr_len);
 
 	if (bytes == -1)
-		fatal_error("ft_malcolm: failed to receive packet!");
+		fatal_error("Failed to receive packet!");
 
 	// Excluir depois dos testes
 	if (bytes >= 42 && verify_buffer(buffer, 0, 5, 0xff)

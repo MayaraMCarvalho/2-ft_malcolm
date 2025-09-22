@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 17:37:02 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:04:00 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	valid_data(void)
 {
 	if (!valid_ip(g_data.source_ip) || !valid_ip(g_data.target_ip)
-		|| !valid_mac(g_data.source_mac) || !valid_mac(g_data.target_mac))
+		|| !valid_mac(g_data.source_mac) || !valid_mac(g_data.target_mac)
+		|| !valid_flag(g_data.flag))
 		return (FALSE);
 
 	return (TRUE);
@@ -80,6 +81,20 @@ int	verify_buffer(char *buffer, int init_range, int end_range, char byte)
 	{
 		if (buffer[i] != byte)
 			return (FALSE);
+	}
+	return (TRUE);
+}
+
+int	valid_flag(const char *flag)
+{
+	if (flag && (ft_strlen(flag) != 2
+		|| flag[0] != '-' || flag[1] != 'v'))
+	{
+		printf("%s", RED);
+		printf("ft_malcolm: invalid flag (%s)\n", flag);
+		printf("%s", RESET);
+
+		return (FALSE);
 	}
 	return (TRUE);
 }

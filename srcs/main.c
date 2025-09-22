@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/19 17:35:27 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:04:16 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ t_data	g_data;
 
 int	main(int argc, char *argv[])
 {
-	if (argc != 5)
+	if (argc != 5 && argc != 6)
 	{
 		printf("%sError: insufficient argument number!\n", RED);
 		printf("\nUsage: ft_malcolm <Source IP> <Source MAC Address>");
-		printf(" <Target IP> <Target MAC Address>%s\n\n", RESET);
+		printf(" <Target IP> <Target MAC Address> [Flag]:optional%s\n\n", RESET);
 	}
 	else
 	{
-		setup(argv);
+		setup(argv, argc);
 		if (valid_data())
 		{
 			welcome();
