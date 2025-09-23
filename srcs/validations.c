@@ -6,19 +6,23 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/22 18:04:00 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:46:50 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-int	valid_data(void)
+int	valid_data(int argc, char *argv[])
 {
-	if (!valid_ip(g_data.source_ip) || !valid_ip(g_data.target_ip)
-		|| !valid_mac(g_data.source_mac) || !valid_mac(g_data.target_mac)
+	if (argc == 6)
+		g_data.flag = argv[5];
+
+	if (!valid_ip(argv[1]) || !valid_ip(argv[3])
+		|| !valid_mac(argv[2]) || !valid_mac(argv[4])
 		|| !valid_flag(g_data.flag))
 		return (FALSE);
 
+	setup(argv);
 	return (TRUE);
 }
 

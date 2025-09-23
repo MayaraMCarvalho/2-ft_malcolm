@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/22 17:42:28 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:43:58 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define INET4_LEN 4
 # define ETH_ALEN 6
 
-typedef struct __attribute__((packed)) s_arp
+typedef struct s_arp
 {
 	uint16_t	htype;					// Hardware type (1 for Ethernet)
 	uint16_t	ptype;					// Protocol type (0x0800 for IP)
@@ -57,7 +57,7 @@ typedef struct __attribute__((packed)) s_arp
 	uint8_t		target_ip[INET4_LEN];	// Target protocol address (IP)
 }	t_arp;
 
-typedef struct __attribute__((packed)) s_eth_hdr
+typedef struct s_eth_hdr
 {
 	uint8_t dst_mac[ETH_ALEN];
 	uint8_t src_mac[ETH_ALEN];
@@ -66,10 +66,6 @@ typedef struct __attribute__((packed)) s_eth_hdr
 
 typedef struct s_data
 {
-	const char	*source_mac;
-	const char	*source_ip;
-	const char	*target_mac;
-	const char	*target_ip;
 	const char	*flag;
 	int			sock_fd;
 	int			if_index;
@@ -97,7 +93,7 @@ void	receive_packet (void);
 void	print_packet(char *buffer, int init_range, int end_range, char delimeter);
 
 // setup.c
-void	setup(char *argv[], int argc);
+void	setup(char *argv[]);
 void	set_mac(const char *info, uint8_t *mac);
 void	set_ip(const char *info, uint8_t *ip);
 void	setup_signal(void);
@@ -113,7 +109,7 @@ int		count_args(char **args);
 int		is_hex(const char *str);
 
 // validations.c
-int		valid_data(void);
+int		valid_data(int argc, char *argv[]);
 int		valid_ip(const char *ip);
 int		valid_mac(const char *mac);
 int		verify_buffer(char *buffer, int init_range, int end_range, char byte);

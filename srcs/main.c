@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/22 18:04:16 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:43:51 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		setup(argv, argc);
-		if (valid_data())
+		if (valid_data(argc, argv))
 		{
 			welcome();
 			connection();

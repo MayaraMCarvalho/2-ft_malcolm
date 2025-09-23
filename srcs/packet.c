@@ -26,7 +26,7 @@ void	send_packet(void)
 	addr.sll_protocol = htons(ETH_P_ARP);
 	addr.sll_ifindex = g_data.if_index;
 	addr.sll_halen = ETH_ALEN;
-	ft_memcpy(addr.sll_addr, g_data.target_mac, ETH_ALEN);
+	ft_memcpy(addr.sll_addr, g_data.arp.target_mac, ETH_ALEN);
 
 	if (sendto(g_data.sock_fd, frame, sizeof(frame), 0,
 			(struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
@@ -55,8 +55,8 @@ void	create_packet(void)
 	g_data.arp.plen = INET4_LEN;
 	g_data.arp.opcode = htons(2);
 
-	ft_memcpy(g_data.arp.target_mac, g_data.target_mac, ETH_ALEN);
-	ft_memcpy(g_data.arp.target_ip, g_data.target_ip, INET4_LEN);
+	ft_memcpy(g_data.arp.target_mac, g_data.arp.target_mac, ETH_ALEN);
+	ft_memcpy(g_data.arp.target_ip, g_data.arp.target_ip, INET4_LEN);
 }
 
 void	receive_packet (void)
@@ -96,6 +96,8 @@ void	receive_packet (void)
 void print_packet(char *buffer, int init_range, int end_range, char delimeter)
 {
 	int	i;
+
+	//Validar flag para mudar o print
 
 	if (init_range > end_range)
 		return;
