@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 11:43:58 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:31:31 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	send_packet(void);
 void	create_frame(uint8_t *frame);
 void	create_packet(void);
 void	receive_packet (void);
+
+// print.c
 void	print_packet(char *buffer, int init_range, int end_range, char delimeter);
+void	print_request(ssize_t bytes, char *buffer);
 
 // setup.c
 void	setup(char *argv[]);

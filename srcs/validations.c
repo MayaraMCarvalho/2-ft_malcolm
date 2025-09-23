@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 11:46:50 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:26:38 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,18 @@ int	valid_ip(const char *ip)
 	int		num;
 	int		error;
 
-	error = FALSE;
 	list = ft_split(ip, '.');
 	error = (count_args(list) != 4);
 	i = -1;
 	while (!error && list[++i])
 	{
-		num = ft_atoi(list[i]);
-		error = (num < 0 || num > 255);
+		char dummy;
+		if (sscanf(list[i], "%d%c", &num, &dummy) != 1
+			|| num < 0 || num > 255)
+			error = TRUE;
 	}
-
 	free_split(&list);
+
 	if (error)
 		return (ip_error(ip));
 
@@ -56,12 +57,12 @@ int	valid_mac(const char *mac)
 	int		i;
 	int		error;
 
-	error = FALSE;
 	if (ft_strlen(mac) != 17)
 		return (mac_error(mac));
 
 	list = ft_split(mac, ':');
-	error = (count_args(list) < 6);
+	error = (count_args(list) != 6);
+
 	i = -1;
 	while (!error && list[++i])
 		error = (ft_strlen(list[i]) != 2 || !is_hex(list[i]));

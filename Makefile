@@ -6,13 +6,13 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/09/19 16:39:00 by macarval         ###   ########.fr        #
+#    Updated: 2025/09/23 15:29:14 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_malcolm
 
-SRCS		= main.c info.c packet.c setup.c socket.c utils.c validations.c
+SRCS		= main.c info.c packet.c print.c setup.c socket.c utils.c validations.c
 
 VPATH		= srcs/
 OBJS_PATH	= obj
