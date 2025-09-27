@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 15:45:12 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:41:38 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	welcome(void)
 
 void	bye(void)
 {
+	printf("\n%sExiting program...%s\n", GREEN, RESET);
 	printf("\n%s", BCYAN);
 	printf("		 ⠀⠀⠀⠀⠀⠀⠀⠀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
 	printf("		⠀⠀⠀⠀⠀⠀⠀⠀⢰⡿⠻⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
@@ -79,8 +80,11 @@ void	fatal_error(char *msg)
 	err = errno;
 	fprintf(stderr, "\n\n%sft_malcolm: %s%s (%s)\n\n%s",
 			YELLOW, RED, msg, strerror(err), RESET);
-	if (g_data.sock_fd >= 0)
-		close(g_data.sock_fd);
+
+	if (g_data.info.sock_fd >= 0)
+		close(g_data.info.sock_fd);
+	if (g_data.info.if_name)
+		free(g_data.info.if_name);
 
 	bye();
 	exit(EXIT_FAILURE);

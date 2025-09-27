@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:24:35 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/18 17:24:13 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/25 21:18:49 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	count_args(char **args)
 
 	i = -1;
 	size = 0;
-	while (args[++i])
+
+	while (args && args[++i])
 		size++;
 
 	return (size);

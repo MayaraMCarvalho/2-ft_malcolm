@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 11:43:51 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:41:18 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,44 @@ int	main(int argc, char *argv[])
 	{
 		printf("%sError: insufficient argument number!\n", RED);
 		printf("\nUsage: ft_malcolm <Source IP> <Source MAC Address>");
-		printf(" <Target IP> <Target MAC Address> [Flag]:optional%s\n\n", RESET);
+		printf(" <Target IP> <Target MAC Address> [Flag]: optional%s\n\n", RESET);
+		return (0);
 	}
-	else
+
+	if (valid_data(argc, argv))
 	{
-		if (valid_data(argc, argv))
-		{
-			welcome();
-			connection();
-			setup_signal();
-			attack();
-		}
+		setup_signal();
+		setup(argv);
+		attack();
 	}
 	return (0);
 }
 
 void	attack(void)
 {
-	receive_packet();
-	send_packet();
+	welcome();
+	connection();
+	while (1)
+	{
+		if (receive_packet())
+		{
+			send_packet();
+			break ;
+		}
+	}
+	bye();
 }
 
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT || signal == SIGTERM || signal == SIGTSTP)
 	{
-		close(g_data.sock_fd);
-		bye();
+		if (g_data.info.sock_fd >= 0)
+			close(g_data.info.sock_fd);
+
+		if (g_data.info.if_name)
+			free(g_data.info.if_name);
+
 		exit(0);
 	}
 }

@@ -6,13 +6,13 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/09/23 15:29:14 by macarval         ###   ########.fr        #
+#    Updated: 2025/09/27 11:26:10 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ft_malcolm
 
-SRCS		= main.c info.c packet.c print.c setup.c socket.c utils.c validations.c
+SRCS		= main.c info.c interface.c packet.c print.c setup.c utils.c validations.c
 
 VPATH		= srcs/
 OBJS_PATH	= obj
@@ -49,6 +49,12 @@ BWHITE		= \033[1;37m
 
 OBJS		= $(addprefix $(OBJS_PATH)/, $(SRCS:.c=.o))
 
+# Config
+IP_SOURCE	= 10.12.255.255 		# IP original que será consultado pela vítima
+MAC_SOURCE	= 02:bb:ff:ff:ee:ff		# MAC falso
+IP_TARGET	= 10.12.10.22			# IP da vítima
+MAC_TARGET	= aa:bb:cc:dd:ee:ff		# MAC da vítima
+
 all: 		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS_PATH) $(OBJS)
@@ -81,12 +87,12 @@ re:			fclean all
 comp:
 			clear
 			@make --no-print-directory -s re
-			@./$(NAME)
+			@{ ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET); } || true
 
 val:
 			clear
 			@make --no-print-directory -s re
-			@valgrind ./$(NAME)
+			@{ valgrind --leak-check=full ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET); } || true
 
 git:
 			clear

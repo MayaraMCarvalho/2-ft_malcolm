@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 15:26:38 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:39:07 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int	valid_data(int argc, char *argv[])
 {
 	if (argc == 6)
-		g_data.flag = argv[5];
+		g_data.info.flag = argv[5];
 
 	if (!valid_ip(argv[1]) || !valid_ip(argv[3])
 		|| !valid_mac(argv[2]) || !valid_mac(argv[4])
-		|| !valid_flag(g_data.flag))
+		|| !valid_flag(g_data.info.flag))
 		return (FALSE);
 
-	setup(argv);
 	return (TRUE);
 }
 
@@ -34,6 +33,9 @@ int	valid_ip(const char *ip)
 	int		error;
 
 	list = ft_split(ip, '.');
+	if (!list)
+		return (ip_error(ip));
+
 	error = (count_args(list) != 4);
 	i = -1;
 	while (!error && list[++i])
@@ -61,6 +63,9 @@ int	valid_mac(const char *mac)
 		return (mac_error(mac));
 
 	list = ft_split(mac, ':');
+	if (!list)
+		return (mac_error(mac));
+
 	error = (count_args(list) != 6);
 
 	i = -1;

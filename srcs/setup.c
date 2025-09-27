@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 15:00:28 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:58:08 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,28 @@
 
 void	setup(char *argv[])
 {
-	set_ip(argv[1], g_data.arp.sender_ip);
-	set_mac(argv[2], g_data.arp.sender_mac);
-	set_ip(argv[3], g_data.arp.target_ip);
-	set_mac(argv[4], g_data.arp.target_mac);
+	g_data.info.sock_fd = -1;
+	g_data.info.flag = NULL;
+
+	get_name_if();
+
+	set_ip(argv[1], g_data.info.source_ip);
+	set_mac(argv[2], g_data.info.source_mac);
+	set_ip(argv[3], g_data.info.target_ip);
+	set_mac(argv[4], g_data.info.target_mac);
 }
 
 void	set_mac(const char *info, uint8_t *mac)
 {
-	char	**list;
-	int		i;
-
-	i = -1;
-	list = ft_split(info, ':');
-	while (list[++i])
-		sscanf(list[i], "%2hhx", &mac[i]);
-
-	free_split(&list);
+	if (!info || sscanf(info, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
+		&mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]) != 6)
+		mac_error(info);
 }
 
 void	set_ip(const char *info, uint8_t *ip)
 {
-	char	**list;
-	int		i;
-
-	i = -1;
-	list = ft_split(info, '.');
-	while (list[++i])
-		sscanf(list[i], "%hhu", &ip[i]);
-
-	free_split(&list);
+	if (inet_pton(AF_INET, info, ip) != 1)
+		ip_error(info);
 }
 
 void	setup_signal(void)
@@ -51,7 +43,8 @@ void	setup_signal(void)
 	struct sigaction	action;
 
 	ft_memset(&action, 0, sizeof(action));
-	action.sa_handler = signal_handler;
+	action.sa_handler = &signal_handler;
+	action.sa_flags = 0;
 
 	if (sigaction(SIGINT, &action, NULL) == -1
 		|| sigaction(SIGTERM, &action, NULL) == -1

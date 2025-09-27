@@ -12,37 +12,55 @@
 
 #include "ft_malcolm.h"
 
-void	print_packet(char *buffer, int init_range, int end_range, char delimeter)
+int	print_request(ssize_t bytes, char *buffer)
+{
+	if (bytes >= (ssize_t)(ETH_LEN + sizeof(t_arp))
+		&& verify_buffer(buffer, 0, 5, 0xff)
+		&& buffer[12] == 0x08 && buffer[13] == 0x06)
+	{
+		t_arp *arp;
+
+		arp = (t_arp *)(buffer + ETH_LEN);
+		if (ntohs(arp->opcode) == 1
+			&& memcmp(arp->sender_ip, g_data.info.target_ip, INET4_LEN) == 0
+			&& memcmp(arp->target_ip, g_data.info.source_ip, INET4_LEN) == 0)
+		{
+			printf("Found available interface: %s\n", g_data.info.if_name);
+			printf("An ARP request has been broadcast.\n");
+
+			printf("\tmac address of request: ");
+			print_packet(arp->sender_mac, 0, 5, ':');
+
+			printf("\tIP address of request: ");
+			print_packet(arp->sender_ip, 0, 3, '.');
+
+			return (1);
+		}
+	}
+
+	return (0);
+}
+
+void	print_packet(const uint8_t *buffer, int init, int end, char delimeter)
 {
 	int	i;
 
 	//Validar flag para mudar o print
-	if (init_range > end_range)
+	if (init > end || init < 0)
 		return;
 
-	i = init_range - 1;
-	while (++i < end_range)
-		printf("%02x%c", (uint8_t)buffer[i], delimeter);
-	printf("%02x\n", (uint8_t)buffer[i]);
-}
-
-void	print_request(ssize_t bytes, char *buffer)
-{
-	if (bytes >= 42 && verify_buffer(buffer, 0, 5, 0xff)
-		&& buffer[12] == 0x08 && buffer[13] == 0x06
-		&& buffer[20] == 0x00 && buffer[21] == 0x01)
+	if (delimeter == ':')
 	{
-		printf("***Broadcast ARP Request received***\n");
-
-		printf("Received %zd bytes\n", bytes);
-
-		printf("Data: \n");
-		print_packet(buffer, 0, bytes - 1, ' ');
-
-		printf("MAC de origem: \n");
-		print_packet(buffer, 6, 11, ':');
-
-		printf("IP de origem: \n");
-		print_packet(buffer, 28, 31, '.');
+		for (i = init; i < end; ++i)
+			printf("%02x%c", (uint8_t)buffer[i], delimeter);
+		printf("%02x\n", (uint8_t)buffer[i]);
+	}
+	else if (delimeter == '.')
+	{
+		for (i = init; i < end; ++i)
+			printf("%02d%c", (uint8_t)buffer[i], delimeter);
+		printf("%02d\n", (uint8_t)buffer[i]);
 	}
 }
+
+

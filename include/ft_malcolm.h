@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/23 15:31:31 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:51:06 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 # include <arpa/inet.h> // inet_pton, inet_ntop, inet_addr, htons, ntohs
 # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
 # include <linux/if_arp.h>
+#include <net/ethernet.h>
 
 // #include <stdlib.h>
 // #include <sys/types.h>
 // #include <sys/ioctl.h>
 // #include <bits/sigaction.h>
-// #include <net/ethernet.h>
 // #include <linux/if_ether.h>
 // #include <netinet/ip.h>
 // #include <bits/ioctls.h>
@@ -43,8 +43,9 @@
 # define ETH_P_ARP 0x0806
 # define INET4_LEN 4
 # define ETH_ALEN 6
+# define ETH_LEN 14
 
-typedef struct s_arp
+typedef struct __attribute__((packed)) s_arp
 {
 	uint16_t	htype;					// Hardware type (1 for Ethernet)
 	uint16_t	ptype;					// Protocol type (0x0800 for IP)
@@ -57,19 +58,30 @@ typedef struct s_arp
 	uint8_t		target_ip[INET4_LEN];	// Target protocol address (IP)
 }	t_arp;
 
-typedef struct s_eth_hdr
+typedef struct __attribute__((packed))
 {
-	uint8_t dst_mac[ETH_ALEN];
-	uint8_t src_mac[ETH_ALEN];
-	uint16_t ethertype;
-}	t_eth_hdr;
+	uint8_t		dst_mac[ETH_ALEN];
+	uint8_t		src_mac[ETH_ALEN];
+	uint16_t	ethertype;
+}	t_eth;
+
+typedef struct s_info
+{
+	uint8_t		source_mac[ETH_ALEN];
+	uint8_t		source_ip[INET4_LEN];
+	uint8_t		target_mac[ETH_ALEN];
+	uint8_t		target_ip[INET4_LEN];
+	const char	*flag;
+	int			sock_fd;
+	char		*if_name;
+}	t_info;
+
 
 typedef struct s_data
 {
-	const char	*flag;
-	int			sock_fd;
-	int			if_index;
+	t_info		info;
 	t_arp		arp;
+	t_eth		eth;
 }	t_data;
 
 extern t_data g_data;
@@ -85,27 +97,28 @@ int		ip_error(const char *ip);
 int		mac_error(const char *mac);
 void	fatal_error(char *msg);
 
+// interface.c
+int		get_index_if(void);
+void	get_name_if(void);
+void	get_name_interface(struct ifaddrs *ifa, char *name);
+
 // packet.c
+void	connection(void);
+int		receive_packet (void);
 void	send_packet(void);
-void	create_frame(uint8_t *frame);
-void	create_packet(void);
-void	receive_packet (void);
+void	setup_device(struct sockaddr_ll	*addr);
+void	setup_packet(void);
 
 // print.c
-void	print_packet(char *buffer, int init_range, int end_range, char delimeter);
-void	print_request(ssize_t bytes, char *buffer);
+int		print_request(ssize_t bytes, char *buffer);
+void	print_packet(const uint8_t  *buffer, int init, int end, char delimeter);
+
 
 // setup.c
 void	setup(char *argv[]);
 void	set_mac(const char *info, uint8_t *mac);
 void	set_ip(const char *info, uint8_t *ip);
 void	setup_signal(void);
-
-// socket.c
-void	connection(void);
-int		get_index_if(void);
-char	*get_name_if(void);
-void	get_name_interface(struct ifaddrs *ifa, char *name);
 
 // utils.c
 int		count_args(char **args);
