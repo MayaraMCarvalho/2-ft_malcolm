@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 14:49:14 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:55:39 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,22 @@ extern t_data g_data;
 void	attack(void);
 void	signal_handler(int signal);
 
-// info.c
-void	welcome(void);
-void	bye(void);
+// errors.c
 int		ip_error(const char *ip);
 int		mac_error(const char *mac);
 void	fatal_error(char *msg);
+void	clean_exit(void);
+
+// info.c
+void	welcome(void);
+void	bye(void);
+void	print_log(const char *msg, const char *title, ssize_t size, char *buf);
+void	print_address(const uint8_t  *buf, int init, int end, char delimeter);
 
 // interface.c
 int		get_index_if(void);
 void	get_name_if(void);
 void	get_name_interface(struct ifaddrs *ifa, char *name);
-
-// print.c
-void	print_log(const char *msg, const char *title, ssize_t size, char *buf);
-void	print_address(const uint8_t  *buf, int init, int end, char delimeter);
 
 // reply.c
 void	reply_packet(void);
@@ -115,7 +116,7 @@ void	setup_packet(void);
 int		request_packet(void);
 int		received_request(ssize_t bytes, char *buffer);
 int		verify_buffer(char *buffer, int init_range, int end_range, char byte);
-void	print_request_verbose(ssize_t bytes, t_arp *arp);
+void	print_request_verbose(t_arp *arp);
 void	print_request(t_arp *arp);
 
 // setup.c

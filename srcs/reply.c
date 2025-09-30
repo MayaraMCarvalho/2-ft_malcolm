@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   packet.c                                           :+:      :+:    :+:   */
+/*   reply.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 15:32:20 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:41:16 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ void	reply_packet(void)
 	ft_memcpy(frame, &g_data.eth, ETH_LEN);
 	ft_memcpy(frame + ETH_LEN, &g_data.arp, sizeof(t_arp));
 
-	printf("Now sending an ARP reply to the target address ");
-	printf("with spoofed source, please wait...");
+	printf("\nNow sending an ARP reply to the target address ");
+	printf("with spoofed source, please wait...\n");
 
 	if (sendto(g_data.info.sock_fd, &frame, sizeof(frame), 0,
 			(struct sockaddr *)&device, sizeof(device)) < 0)
 		fatal_error("Failed to send ARP packet!");
 
-	printf("Sent an ARP reply packet, you may now check the ");
-	printf("arp table on the target.");
-
-	// validar os prints
-	print_log("Packet sent", "Sent ARP frame", sizeof(frame), (char *)frame);
+	printf("\nSent an ARP reply packet, you may now check the ");
+	printf("arp table on the target.\n");
 
 	if (g_data.info.has_flag)
-		printf("[VERBOSE] ARP reply sent to %s\n", g_data.info.if_name);
+	{
+		print_log("***Packet sent***", "Sent ARP frame", sizeof(frame), (char *)frame);
+		printf("\n[VERBOSE] ARP reply sent to %s\n", g_data.info.if_name);
+	}
 }
 
 void	setup_device(struct sockaddr_ll *device)

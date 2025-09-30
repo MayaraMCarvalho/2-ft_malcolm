@@ -45,6 +45,12 @@ void	attack(void)
 			break ;
 		}
 	}
+	if (g_data.info.sock_fd >= 0)
+		close(g_data.info.sock_fd);
+
+	if (g_data.info.if_name)
+		free(g_data.info.if_name);
+
 	bye();
 }
 

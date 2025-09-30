@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   packet.c                                           :+:      :+:    :+:   */
+/*   request.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 15:32:20 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:52:13 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ int	received_request(ssize_t bytes, char *buffer)
 		&& buffer[12] == 0x08 && buffer[13] == 0x06)
 	{
 		arp = (t_arp *)(buffer + ETH_LEN);
+		if (arp->hlen != ETH_ALEN || arp->plen != INET4_LEN)
+			return (FALSE);
 		if (ntohs(arp->opcode) == 1
 			&& memcmp(arp->sender_ip, g_data.info.target_ip, INET4_LEN) == 0
 			&& memcmp(arp->target_ip, g_data.info.source_ip, INET4_LEN) == 0)
 		{
-			// validar os prints
-			print_log("Packet received", "Raw packet dump", bytes, buffer);
-
 			if (g_data.info.has_flag)
-				print_request_verbose(bytes, arp);
+			{
+				print_log("***Packet received***", "Raw packet dump", bytes, buffer);
+				print_request_verbose(arp);
+			}
 			else
 				print_request(arp);
 			return (TRUE);
@@ -74,10 +76,9 @@ int	verify_buffer(char *buffer, int init_range, int end_range, char byte)
 	return (TRUE);
 }
 
-void	print_request_verbose(ssize_t bytes, t_arp *arp)
+void	print_request_verbose(t_arp *arp)
 {
-	printf("[VERBOSE] Received %zd bytes\n", bytes);
-	printf("[VERBOSE] Opcode offset: %d → %d\n",
+	printf("\n[VERBOSE] Opcode offset: %d → %d\n",
 		ETH_LEN + 6, ntohs(arp->opcode));
 
 	printf("[VERBOSE] Sender IP: ");

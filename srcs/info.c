@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:51:52 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 11:41:38 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:59:34 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	welcome(void)
 {
 	printf("%s", BYELLOW);
-	printf("┎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┒\n");
+	printf("┎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┒\n");
 	printf("%s", BPURPLE);
 	printf("	   __ _                       _           _\n");
 	printf("	  / _| |_     _ __ ___   __ _| | ___ ___ | |_ __ ___\n");
@@ -24,7 +24,7 @@ void	welcome(void)
 	printf("	 |_|  \\__|___|_| |_| |_|\\__,_|_|\\___\\___/|_|_| |_| |_|\n");
 	printf("	        |_____|\n");
 	printf("%s", BYELLOW);
-	printf("┖┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┚\n");
+	printf("┖┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┚\n");
 	printf("%s", RESET);
 }
 
@@ -55,37 +55,40 @@ void	bye(void)
 	printf("%s", RESET);
 }
 
-int	ip_error(const char *ip)
+void	print_log(const char *msg, const char *title, ssize_t size, char *buf)
 {
-	printf("%s", RED);
-	printf("ft_malcolm: unknown host or invalid IP address (%s)\n", ip);
-	printf("%s", RESET);
+	int	i;
 
-	return (FALSE);
+	printf("\n[VERBOSE] %s\n", msg);
+	printf("[VERBOSE] %s (%zd bytes)\n", title, size);
+
+	for (i = 0; i < size; i++)
+	{
+		printf("%02x ", (unsigned char)buf[i]);
+		if ((i + 1) % 16 == 0)
+			printf("\n");
+	}
+	if (i % 16 != 0)
+		printf("\n");
 }
 
-int	mac_error(const char *mac)
+void	print_address(const uint8_t *buf, int init, int end, char delimeter)
 {
-	printf("%s", RED);
-	printf("ft_malcolm: invalid mac address (%s)\n", mac);
-	printf("%s", RESET);
+	int	i;
 
-	return (FALSE);
-}
+	if (init > end || init < 0)
+		return ;
 
-void	fatal_error(char *msg)
-{
-	int	err;
-
-	err = errno;
-	fprintf(stderr, "\n\n%sft_malcolm: %s%s (%s)\n\n%s",
-		YELLOW, RED, msg, strerror(err), RESET);
-
-	if (g_data.info.sock_fd >= 0)
-		close(g_data.info.sock_fd);
-	if (g_data.info.if_name)
-		free(g_data.info.if_name);
-
-	bye();
-	exit(EXIT_FAILURE);
+	if (delimeter == ':')
+	{
+		for (i = init; i < end; ++i)
+			printf("%02x%c", (uint8_t)buf[i], delimeter);
+		printf("%02x\n", (uint8_t)buf[i]);
+	}
+	else if (delimeter == '.')
+	{
+		for (i = init; i < end; ++i)
+			printf("%d%c", (uint8_t)buf[i], delimeter);
+		printf("%d\n", (uint8_t)buf[i]);
+	}
 }

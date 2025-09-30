@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 11:39:07 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:33:36 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	validate_data(int argc, char *argv[])
 	flag = NULL;
 	if (argc == 6)
 		flag = argv[5];
+
+	g_data.info.has_flag = FALSE;
 
 	if (!validate_ip(argv[1]) || !validate_ip(argv[3])
 		|| !validate_mac(argv[2]) || !validate_mac(argv[4])
@@ -95,7 +97,6 @@ int	validate_flag(const char *flag)
 		}
 		g_data.info.has_flag = TRUE;
 	}
-	g_data.info.has_flag = FALSE;
 
 	return (TRUE);
 }
