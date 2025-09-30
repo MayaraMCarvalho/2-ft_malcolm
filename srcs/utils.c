@@ -19,7 +19,6 @@ int	count_args(char **args)
 
 	i = -1;
 	size = 0;
-
 	while (args && args[++i])
 		size++;
 

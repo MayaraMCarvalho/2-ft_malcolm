@@ -39,7 +39,7 @@ echo "--------------------------------------------------------------------------
 
 echo "${red}Error: insufficient argument number!
 
-Usage: ft_malcolm <Source IP> <Source MAC Address> <Target IP> <Target MAC Address> [Flag]: optional${reset}
+Usage: ft_malcolm <Source IP> <Source MAC Address> <Target IP> <Target MAC Address> [Flag optional]: -v${reset}
 " > ./Test/empty.result
 
 echo -ne "${red}ft_malcolm: unknown host or invalid IP address (10.11.1991.111)\n${reset}" > ./Test/ip_error1.result

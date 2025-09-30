@@ -12,25 +12,29 @@
 
 #include "ft_malcolm.h"
 
-int	valid_data(int argc, char *argv[])
+int	validate_data(int argc, char *argv[])
 {
-	if (argc == 6)
-		g_data.info.flag = argv[5];
+	char	*flag;
 
-	if (!valid_ip(argv[1]) || !valid_ip(argv[3])
-		|| !valid_mac(argv[2]) || !valid_mac(argv[4])
-		|| !valid_flag(g_data.info.flag))
+	flag = NULL;
+	if (argc == 6)
+		flag = argv[5];
+
+	if (!validate_ip(argv[1]) || !validate_ip(argv[3])
+		|| !validate_mac(argv[2]) || !validate_mac(argv[4])
+		|| !validate_flag(flag))
 		return (FALSE);
 
 	return (TRUE);
 }
 
-int	valid_ip(const char *ip)
+int	validate_ip(const char *ip)
 {
 	char	**list;
 	int		i;
 	int		num;
 	int		error;
+	char	dummy;
 
 	list = ft_split(ip, '.');
 	if (!list)
@@ -40,7 +44,6 @@ int	valid_ip(const char *ip)
 	i = -1;
 	while (!error && list[++i])
 	{
-		char dummy;
 		if (sscanf(list[i], "%d%c", &num, &dummy) != 1
 			|| num < 0 || num > 255)
 			error = TRUE;
@@ -53,7 +56,7 @@ int	valid_ip(const char *ip)
 	return (TRUE);
 }
 
-int	valid_mac(const char *mac)
+int	validate_mac(const char *mac)
 {
 	char	**list;
 	int		i;
@@ -67,7 +70,6 @@ int	valid_mac(const char *mac)
 		return (mac_error(mac));
 
 	error = (count_args(list) != 6);
-
 	i = -1;
 	while (!error && list[++i])
 		error = (ft_strlen(list[i]) != 2 || !is_hex(list[i]));
@@ -79,32 +81,50 @@ int	valid_mac(const char *mac)
 	return (TRUE);
 }
 
-int	verify_buffer(char *buffer, int init_range, int end_range, char byte)
+int	validate_flag(const char *flag)
 {
-	int	i;
-
-	if (init_range > end_range)
-		return (FALSE);
-
-	i = init_range - 1;
-	while (++i <= end_range)
+	if (flag)
 	{
-		if (buffer[i] != byte)
+		if (ft_strlen(flag) != 2 || flag[0] != '-' || flag[1] != 'v')
+		{
+			printf("%s", RED);
+			printf("ft_malcolm: invalid flag (%s)\n", flag);
+			printf("%s", RESET);
+
 			return (FALSE);
+		}
+		g_data.info.has_flag = TRUE;
 	}
+	g_data.info.has_flag = FALSE;
+
 	return (TRUE);
 }
 
-int	valid_flag(const char *flag)
+int	validate_spoofed_ip(void)
 {
-	if (flag && (ft_strlen(flag) != 2
-		|| flag[0] != '-' || flag[1] != 'v'))
-	{
-		printf("%s", RED);
-		printf("ft_malcolm: invalid flag (%s)\n", flag);
-		printf("%s", RESET);
+	struct ifaddrs		*ifaddr;
+	struct ifaddrs		*ifa;
+	struct sockaddr_in	*sa;
+	uint8_t				local_ip[INET4_LEN];
 
+	if (getifaddrs(&ifaddr) == -1)
 		return (FALSE);
+
+	for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+	{
+		if (ifa->ifa_addr && ifa->ifa_addr->sa_family == AF_INET)
+		{
+			sa = (struct sockaddr_in *)ifa->ifa_addr;
+			memcpy(local_ip, &sa->sin_addr, INET4_LEN);
+
+			if (memcmp(local_ip, g_data.info.source_ip, INET4_LEN) == 0)
+			{
+				freeifaddrs(ifaddr);
+				return (TRUE);
+			}
+		}
 	}
-	return (TRUE);
+
+	freeifaddrs(ifaddr);
+	return (FALSE);
 }

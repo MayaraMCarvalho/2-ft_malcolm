@@ -15,7 +15,6 @@
 void	setup(char *argv[])
 {
 	g_data.info.sock_fd = -1;
-	g_data.info.flag = NULL;
 
 	get_name_if();
 
@@ -28,7 +27,7 @@ void	setup(char *argv[])
 void	set_mac(const char *info, uint8_t *mac)
 {
 	if (!info || sscanf(info, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
-		&mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]) != 6)
+			&mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5]) != 6)
 		mac_error(info);
 }
 
@@ -50,4 +49,14 @@ void	setup_signal(void)
 		|| sigaction(SIGTERM, &action, NULL) == -1
 		|| sigaction(SIGTSTP, &action, NULL) == -1)
 		exit(EXIT_FAILURE);
+}
+
+void	connection(void)
+{
+	if (!validate_spoofed_ip())
+		fatal_error("Spoofed IP does not belong to this VM!");
+
+	g_data.info.sock_fd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
+	if (g_data.info.sock_fd < 0)
+		fatal_error("Failed to get socket descriptor!");
 }

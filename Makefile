@@ -12,7 +12,8 @@
 
 NAME		= ft_malcolm
 
-SRCS		= main.c info.c interface.c packet.c print.c setup.c utils.c validations.c
+SRCS		= main.c info.c interface.c print.c reply.c request.c setup.c \
+			utils.c validations.c
 
 VPATH		= srcs/
 OBJS_PATH	= obj
@@ -54,6 +55,7 @@ IP_SOURCE	= 10.12.255.255 		# IP original que será consultado pela vítima
 MAC_SOURCE	= 02:bb:ff:ff:ee:ff		# MAC falso
 IP_TARGET	= 10.12.10.22			# IP da vítima
 MAC_TARGET	= aa:bb:cc:dd:ee:ff		# MAC da vítima
+FLAG		= 						# Flag optional: -v
 
 all: 		$(NAME)
 
@@ -87,12 +89,12 @@ re:			fclean all
 comp:
 			clear
 			@make --no-print-directory -s re
-			@{ ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET); } || true
+			@{ ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
 val:
 			clear
 			@make --no-print-directory -s re
-			@{ valgrind --leak-check=full ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET); } || true
+			@{ valgrind --leak-check=full ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
 git:
 			clear

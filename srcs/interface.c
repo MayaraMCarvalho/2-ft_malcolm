@@ -17,7 +17,6 @@ int	get_index_if(void)
 	int		index_if;
 
 	index_if = if_nametoindex(g_data.info.if_name);
-
 	if (!index_if)
 		fatal_error("Failed to obtain interface index!");
 
@@ -42,7 +41,7 @@ void	get_name_if(void)
 		fatal_error("No valid network interface found!");
 }
 
-void get_name_interface(struct ifaddrs *ifa, char *name)
+void	get_name_interface(struct ifaddrs *ifa, char *name)
 {
 	while (ifa != NULL)
 	{

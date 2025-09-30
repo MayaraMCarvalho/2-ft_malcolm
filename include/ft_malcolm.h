@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 11:51:06 by macarval         ###   ########.fr       */
+/*   Updated: 2025/09/27 14:49:14 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_info
 	uint8_t		source_ip[INET4_LEN];
 	uint8_t		target_mac[ETH_ALEN];
 	uint8_t		target_ip[INET4_LEN];
-	const char	*flag;
+	int			has_flag;
 	int			sock_fd;
 	char		*if_name;
 }	t_info;
@@ -102,33 +102,39 @@ int		get_index_if(void);
 void	get_name_if(void);
 void	get_name_interface(struct ifaddrs *ifa, char *name);
 
-// packet.c
-void	connection(void);
-int		receive_packet (void);
-void	send_packet(void);
-void	setup_device(struct sockaddr_ll	*addr);
+// print.c
+void	print_log(const char *msg, const char *title, ssize_t size, char *buf);
+void	print_address(const uint8_t  *buf, int init, int end, char delimeter);
+
+// reply.c
+void	reply_packet(void);
+void	setup_device(struct sockaddr_ll *addr);
 void	setup_packet(void);
 
-// print.c
-int		print_request(ssize_t bytes, char *buffer);
-void	print_packet(const uint8_t  *buffer, int init, int end, char delimeter);
-
+// request.c
+int		request_packet(void);
+int		received_request(ssize_t bytes, char *buffer);
+int		verify_buffer(char *buffer, int init_range, int end_range, char byte);
+void	print_request_verbose(ssize_t bytes, t_arp *arp);
+void	print_request(t_arp *arp);
 
 // setup.c
 void	setup(char *argv[]);
 void	set_mac(const char *info, uint8_t *mac);
 void	set_ip(const char *info, uint8_t *ip);
 void	setup_signal(void);
+void	connection(void);
 
 // utils.c
 int		count_args(char **args);
 int		is_hex(const char *str);
 
 // validations.c
-int		valid_data(int argc, char *argv[]);
-int		valid_ip(const char *ip);
-int		valid_mac(const char *mac);
-int		verify_buffer(char *buffer, int init_range, int end_range, char byte);
-int		valid_flag(const char *flag);
+int		validate_data(int argc, char *argv[]);
+int		validate_ip(const char *ip);
+int		validate_mac(const char *mac);
+int		validate_flag(const char *flag);
+int		validate_spoofed_ip(void);
+
 
 #endif

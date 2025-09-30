@@ -15,7 +15,7 @@
 void	welcome(void)
 {
 	printf("%s", BYELLOW);
-	printf("┎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┒\n");
+	printf("┎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┒\n");
 	printf("%s", BPURPLE);
 	printf("	   __ _                       _           _\n");
 	printf("	  / _| |_     _ __ ___   __ _| | ___ ___ | |_ __ ___\n");
@@ -24,7 +24,7 @@ void	welcome(void)
 	printf("	 |_|  \\__|___|_| |_| |_|\\__,_|_|\\___\\___/|_|_| |_| |_|\n");
 	printf("	        |_____|\n");
 	printf("%s", BYELLOW);
-	printf("┖┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┚\n");
+	printf("┖┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┚\n");
 	printf("%s", RESET);
 }
 
@@ -75,11 +75,11 @@ int	mac_error(const char *mac)
 
 void	fatal_error(char *msg)
 {
-	int err;
+	int	err;
 
 	err = errno;
 	fprintf(stderr, "\n\n%sft_malcolm: %s%s (%s)\n\n%s",
-			YELLOW, RED, msg, strerror(err), RESET);
+		YELLOW, RED, msg, strerror(err), RESET);
 
 	if (g_data.info.sock_fd >= 0)
 		close(g_data.info.sock_fd);

@@ -20,11 +20,11 @@ int	main(int argc, char *argv[])
 	{
 		printf("%sError: insufficient argument number!\n", RED);
 		printf("\nUsage: ft_malcolm <Source IP> <Source MAC Address>");
-		printf(" <Target IP> <Target MAC Address> [Flag]: optional%s\n\n", RESET);
+		printf(" <Target IP> <Target MAC Address> [Flag optional]: -v%s\n\n",
+			RESET);
 		return (0);
 	}
-
-	if (valid_data(argc, argv))
+	if (validate_data(argc, argv))
 	{
 		setup_signal();
 		setup(argv);
@@ -39,9 +39,9 @@ void	attack(void)
 	connection();
 	while (1)
 	{
-		if (receive_packet())
+		if (request_packet())
 		{
-			send_packet();
+			reply_packet();
 			break ;
 		}
 	}
