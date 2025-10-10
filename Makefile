@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/10 12:00:45 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/10 16:11:26 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,12 @@ BWHITE		= \033[1;37m
 OBJS		= $(addprefix $(OBJS_PATH)/, $(SRCS:.c=.o))
 
 # Config
-IP_SOURCE	= 192.168.250.2 		# IP original que será consultado pela vítima
-MAC_SOURCE	= 02:bb:ff:ff:ee:ff		# MAC falso
-IP_TARGET	= 192.168.250.3			# IP da vítima
-MAC_TARGET	= 10:dd:b1:00:00:00		# MAC da vítima
+IP_SOURCE	= 192.168.250.2 		# IP VM
+MAC_SOURCE	= aa:bb:cc:dd:ee:ff		# MAC spoofing
+IP_TARGET	= 192.168.250.3			# IP victim
+MAC_TARGET	= 10:dd:b1:00:00:00		# MAC victim
 FLAG		= 						# Flag optional: -v
+interface	= enp0s3
 
 all: 		$(NAME)
 
@@ -86,20 +87,52 @@ fclean:		clean
 
 re:			fclean all
 
+net:
+			@echo "\n$(YELLOW)Setting up network interface...$(RESET)\n"
+			sudo ip link set dev $(INTERFACE) up
+			sudo ip addr flush dev $(INTERFACE)
+
+net_vm_a:
+			make net
+			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
+
+net_vm_b:
+			make net
+			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
+
+config:
+			sudo apt update
+			sudo apt install net-tools iputils-ping tcpdump arping valgrind
+
+
+run_vm_a:
+			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
+			ping -c $(IP_TARGET)
+			make config
+			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
+			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
+			sudo tcpdump -vv -i $(INTERFACE) arp
+
+run_vm_b:
+			@echo "\n$(YELLOW)Configuring VM B...$(RESET)\n"
+			make config
+			watch ip neigh
+
+request:
+			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n
+			sudo ip neigh flush dev $(INTERFACE)
+			sudo arping -c 3 -I $(INTERFACE) $(IP_SOURCE)
+
 comp:
 			clear
 			@make --no-print-directory -s re
-			@{ ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
+			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
 val:
 			clear
 			@make --no-print-directory -s re
-			@{ valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
+			@{ sudo valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
-sudo:
-			clear
-			@make --no-print-directory -s re
-			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
 git:
 			clear
