@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/27 11:41:18 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:03:21 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,21 @@ t_data	g_data;
 
 int	main(int argc, char *argv[])
 {
+	if (getuid() != 0)
+	{
+		printf("%sError: root privileges are required to run!%s\n\n", RED, RESET);
+		return (1);
+	}
+
 	if (argc != 5 && argc != 6)
 	{
 		printf("%sError: insufficient argument number!\n", RED);
 		printf("\nUsage: ft_malcolm <Source IP> <Source MAC Address>");
 		printf(" <Target IP> <Target MAC Address> [Flag optional]: -v%s\n\n",
 			RESET);
-		return (0);
+		return (2);
 	}
+
 	if (validate_data(argc, argv))
 	{
 		setup_signal();
@@ -37,6 +44,7 @@ void	attack(void)
 {
 	welcome();
 	connection();
+
 	while (1)
 	{
 		if (request_packet())
@@ -45,6 +53,7 @@ void	attack(void)
 			break ;
 		}
 	}
+
 	if (g_data.info.sock_fd >= 0)
 		close(g_data.info.sock_fd);
 
