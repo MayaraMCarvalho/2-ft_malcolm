@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:21:57 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:24:44 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ BWHITE		= \033[1;37m
 OBJS		= $(addprefix $(OBJS_PATH)/, $(SRCS:.c=.o))
 
 # Config
-IP_SOURCE	= 192.168.250.4
+IP_SOURCE	= 192.168.250.2
 MAC_SOURCE	= aa:bb:cc:dd:ee:ff
 IP_TARGET	= 192.168.250.3
 MAC_TARGET	= 10:dd:b1:00:00:00
@@ -95,7 +95,7 @@ net:
 
 net_vm_a:
 			@make --no-print-directory net
-			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
+			sudo ip addr add $(IP_HOST)/24 dev $(INTERFACE)
 
 net_vm_b:
 			@make --no-print-directory net
@@ -103,7 +103,7 @@ net_vm_b:
 
 net_vm_c:
 			@make --no-print-directory net
-			sudo ip addr add $(IP_HOST)/24 dev $(INTERFACE)
+			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 config:
 			sudo apt update
