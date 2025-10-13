@@ -56,7 +56,7 @@ MAC_SOURCE	= aa:bb:cc:dd:ee:ff
 IP_TARGET	= 192.168.250.3
 MAC_TARGET	= 10:dd:b1:00:00:00
 FLAG		= -v
-interface	= enp0s3
+INTERFACE	= enp0s3
 IP_HOST		= 192.168.250.4
 
 all: 		$(NAME)
