@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:05:34 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:17:30 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,7 @@ config:
 
 run_vm_a:
 			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
-			ping -c $(IP_TARGET)
+			ping -c 1 $(IP_TARGET)
 			@make --no-print-directory config
 			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
 			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
@@ -126,7 +126,7 @@ run_vm_b:
 request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n
 			sudo ip neigh flush dev $(INTERFACE)
-			sudo arping -c 3 -I $(INTERFACE) $(IP_SOURCE)
+			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
 
 comp:
 			clear
