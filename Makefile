@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:24:44 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:28:15 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,14 +113,12 @@ config:
 run_vm_a:
 			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
 			ping -c 1 $(IP_TARGET)
-			@make --no-print-directory config
 			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
 			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
 			sudo tcpdump -vv -i $(INTERFACE) arp
 
 run_vm_b:
 			@echo "\n$(YELLOW)Configuring VM B...$(RESET)\n"
-			make config
 			watch ip neigh
 
 request:
