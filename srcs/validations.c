@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:12:56 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 14:16:46 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:43:43 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,6 @@ int	validate_data(int argc, char *argv[])
 		return (FALSE);
 
 	return (TRUE);
-}
-
-char	*get_ip(const char *hostname)
-{
-	struct hostent	*host;
-	char			ip[INET_ADDRSTRLEN];
-	char			*res;
-
-	host = gethostbyname(hostname);
-	if (!host)
-	{
-		ip_error(hostname);
-		exit(4);
-	}
-
-	inet_ntop(AF_INET, host->h_addr_list[0], ip, sizeof(ip));
-	res = ft_strdup(ip);
-
-	return (res);
 }
 
 int	validate_ip(const char *ip)
@@ -121,4 +102,33 @@ int	validate_flag(const char *flag)
 	}
 
 	return (TRUE);
+}
+
+int	validate_spoofed_ip(void)
+{
+	struct ifaddrs		*ifaddr;
+	struct ifaddrs		*ifa;
+	struct sockaddr_in	*sa;
+	uint8_t				local_ip[INET4_LEN];
+
+	if (getifaddrs(&ifaddr) == -1)
+		return (FALSE);
+
+	for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+	{
+		if (ifa->ifa_addr && ifa->ifa_addr->sa_family == AF_INET)
+		{
+			sa = (struct sockaddr_in *)ifa->ifa_addr;
+			memcpy(local_ip, &sa->sin_addr, INET4_LEN);
+
+			if (memcmp(local_ip, g_data.info.source_ip, INET4_LEN) == 0)
+			{
+				freeifaddrs(ifaddr);
+				return (TRUE);
+			}
+		}
+	}
+
+	freeifaddrs(ifaddr);
+	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 14:15:46 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:43:32 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,13 @@ void	setup_signal(void);
 // utils.c
 int		count_args(char **args);
 int		is_hex(const char *str);
+char	*get_ip(const char *hostname);
 
 // validations.c
 int		validate_data(int argc, char *argv[]);
-char	*get_ip(const char *hostname);
 int		validate_ip(const char *ip);
 int		validate_mac(const char *mac);
 int		validate_flag(const char *flag);
+int		validate_spoofed_ip(void);
 
 #endif

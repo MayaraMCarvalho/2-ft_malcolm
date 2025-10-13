@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:30:27 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 17:50:40 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ IP_TARGET	= 192.168.250.3
 MAC_TARGET	= 10:dd:b1:00:00:00
 FLAG		= -v
 INTERFACE	= enp0s3
-IP_HOST		= 192.168.250.4
 
 all: 		$(NAME)
 
@@ -95,15 +94,11 @@ net:
 
 net_vm_a:
 			@make --no-print-directory net
-			sudo ip addr add $(IP_HOST)/24 dev $(INTERFACE)
+			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 net_vm_b:
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
-
-net_vm_c:
-			@make --no-print-directory net
-			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 config:
 			sudo apt update
@@ -128,20 +123,43 @@ request:
 
 comp:
 			clear
+			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			@make --no-print-directory -s re
 			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
+			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 val:
 			clear
+			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			@make --no-print-directory -s re
 			@{ sudo valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
+			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
+
+help:
+			@echo "\n$(YELLOW)Available commands:$(RESET)\n"
+			@echo "$(BYELLOW)make all$(RESET)        - Compile the project."
+			@echo "$(BYELLOW)make clean$(RESET)      - Remove object files and temporary files."
+			@echo "$(BYELLOW)make fclean$(RESET)     - Remove all generated files including the executable."
+			@echo "$(BYELLOW)make re$(RESET)         - Recompile the project (fclean + all)."
+			@echo "$(BYELLOW)make net$(RESET)        - Set up the network interface."
+			@echo "$(BYELLOW)make net_vm_a$(RESET)   - Configure network for VM A."
+			@echo "$(BYELLOW)make net_vm_b$(RESET)   - Configure network for VM B."
+			@echo "$(BYELLOW)make config$(RESET)     - Install necessary packages."
+			@echo "$(BYELLOW)make run_vm_a$(RESET)   - Run configuration commands for VM A."
+			@echo "$(BYELLOW)make run_vm_b$(RESET)   - Run configuration commands for VM B."
+			@echo "$(BYELLOW)make request$(RESET)    - Send an ARP request."
+			@echo "$(BYELLOW)make comp$(RESET)       - Compile and run the program with sudo."
+			@echo "$(BYELLOW)make val$(RESET)        - Compile and run the program with Valgrind."
+			@echo "$(BYELLOW)make git$(RESET)        - Commit and push changes to Git with a structured message.\n"
+			@echo "Example usage: $(BWHITE)make comp FLAG=-v INTERFACE=enp0s3$(RESET)\n"
+			@echo "Note: Replace 'enp0s3' with your actual network interface name.\n"
 
 git:
 			clear
 			@make --no-print-directory fclean
 			@git add .
 			@git status
-			echo "$(BPURPLE)Choose the commit type:"; \
+			@echo "$(BPURPLE)Choose the commit type:"; \
 			echo "$(BYELLOW)1. feat: $(WHITE)Adds a new feature to your codebase"; \
 			echo "$(BYELLOW)2. fix: $(WHITE)Solves a problem in your codebase"; \
 			echo "$(BYELLOW)3. docs: $(WHITE)Documentation changes"; \
@@ -168,4 +186,5 @@ git:
 			git commit -m "[$(NAME)] $$type: $$msg"; \
 			git push
 
-.PHONY:		all re clean fclean comp val git
+.PHONY:		all re clean fclean comp val git net net_vm_a net_vm_b config \
+			run_vm_a run_vm_b request help

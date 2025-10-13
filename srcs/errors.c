@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:51:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 12:20:45 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:47:57 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	fatal_error(char *msg)
 		YELLOW, RED, msg, strerror(err), RESET);
 
 	clean_exit();
+	exit(EXIT_FAILURE);
 }
 
 void	clean_exit(void)
@@ -49,6 +50,5 @@ void	clean_exit(void)
 		free(g_data.info.if_name);
 
 	bye();
-	exit(EXIT_FAILURE);
 }
 

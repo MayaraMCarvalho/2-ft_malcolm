@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 14:15:30 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:48:18 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	set_mac(const char *info, uint8_t *mac)
 	{
 		mac_error(info);
 		clean_exit();
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -41,6 +42,7 @@ void	set_ip(char *info, uint8_t *ip)
 		free(info);
 		ip_error(info);
 		clean_exit();
+		exit(EXIT_FAILURE);
 	}
 
 	free(info);

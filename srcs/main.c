@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 14:14:42 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:47:43 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,14 @@ void	attack(void)
 		}
 	}
 
-	if (g_data.info.sock_fd >= 0)
-		close(g_data.info.sock_fd);
-
-	if (g_data.info.if_name)
-		free(g_data.info.if_name);
-
-	bye();
+	clean_exit();
 }
 
 void	connection(void)
 {
+	if (!validate_spoofed_ip())
+		fatal_error("Spoofed IP does not belong to this VM!");
+
 	g_data.info.sock_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 	if (g_data.info.sock_fd < 0)
 		fatal_error("Failed to get socket descriptor!");
@@ -77,12 +74,8 @@ void	signal_handler(int signal)
 {
 	if (signal == SIGINT || signal == SIGTERM || signal == SIGTSTP)
 	{
-		if (g_data.info.sock_fd >= 0)
-			close(g_data.info.sock_fd);
-
-		if (g_data.info.if_name)
-			free(g_data.info.if_name);
-
-		exit(0);
+		clean_exit();
+		exit(EXIT_FAILURE);
 	}
 }
+
