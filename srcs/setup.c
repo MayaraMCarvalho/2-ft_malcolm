@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:03:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/30 16:44:28 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:15:30 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ void	set_mac(const char *info, uint8_t *mac)
 	}
 }
 
-void	set_ip(const char *info, uint8_t *ip)
+void	set_ip(char *info, uint8_t *ip)
 {
 	if (inet_pton(AF_INET, info, ip) != 1)
 	{
+		free(info);
 		ip_error(info);
 		clean_exit();
 	}
+
+	free(info);
 }
 
 void	setup_signal(void)
@@ -55,14 +58,4 @@ void	setup_signal(void)
 		|| sigaction(SIGTERM, &action, NULL) == -1
 		|| sigaction(SIGTSTP, &action, NULL) == -1)
 		exit(EXIT_FAILURE);
-}
-
-void	connection(void)
-{
-	if (!validate_spoofed_ip())
-		fatal_error("Spoofed IP does not belong to this VM!");
-
-	g_data.info.sock_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
-	if (g_data.info.sock_fd < 0)
-		fatal_error("Failed to get socket descriptor!");
 }

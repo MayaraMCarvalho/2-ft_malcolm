@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/10 12:03:21 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:14:42 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char *argv[])
 		printf("%sError: root privileges are required to run!%s\n\n", RED, RESET);
 		return (1);
 	}
-
 	if (argc != 5 && argc != 6)
 	{
 		printf("%sError: insufficient argument number!\n", RED);
@@ -31,12 +30,16 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 
-	if (validate_data(argc, argv))
+	if (!validate_data(argc, argv))
 	{
-		setup_signal();
-		setup(argv);
-		attack();
+		free(argv[1]);
+		free(argv[3]);
+		return (3);
 	}
+
+	setup(argv);
+	setup_signal();
+	attack();
 	return (0);
 }
 
@@ -61,6 +64,13 @@ void	attack(void)
 		free(g_data.info.if_name);
 
 	bye();
+}
+
+void	connection(void)
+{
+	g_data.info.sock_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
+	if (g_data.info.sock_fd < 0)
+		fatal_error("Failed to get socket descriptor!");
 }
 
 void	signal_handler(int signal)

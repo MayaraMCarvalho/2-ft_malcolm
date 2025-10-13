@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/30 15:55:39 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:15:46 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data
 extern t_data g_data;
 
 // main.c
+void	connection(void);
 void	attack(void);
 void	signal_handler(int signal);
 
@@ -122,9 +123,8 @@ void	print_request(t_arp *arp);
 // setup.c
 void	setup(char *argv[]);
 void	set_mac(const char *info, uint8_t *mac);
-void	set_ip(const char *info, uint8_t *ip);
+void	set_ip(char *info, uint8_t *ip);
 void	setup_signal(void);
-void	connection(void);
 
 // utils.c
 int		count_args(char **args);
@@ -132,10 +132,9 @@ int		is_hex(const char *str);
 
 // validations.c
 int		validate_data(int argc, char *argv[]);
+char	*get_ip(const char *hostname);
 int		validate_ip(const char *ip);
 int		validate_mac(const char *mac);
 int		validate_flag(const char *flag);
-int		validate_spoofed_ip(void);
-
 
 #endif

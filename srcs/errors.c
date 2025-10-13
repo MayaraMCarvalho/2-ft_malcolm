@@ -6,12 +6,11 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:51:28 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/30 15:52:07 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:20:45 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
-
 
 int	ip_error(const char *ip)
 {
