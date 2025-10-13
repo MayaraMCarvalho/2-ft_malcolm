@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:17:30 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:21:57 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,7 @@ net_vm_a:
 
 net_vm_b:
 			@make --no-print-directory net
-			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
+			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
 
 net_vm_c:
 			@make --no-print-directory net
