@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 11:28:22 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 15:36:16 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,12 +51,13 @@ BWHITE		= \033[1;37m
 OBJS		= $(addprefix $(OBJS_PATH)/, $(SRCS:.c=.o))
 
 # Config
-IP_SOURCE	= 192.168.250.2 		# IP VM
-MAC_SOURCE	= aa:bb:cc:dd:ee:ff		# MAC spoofing
-IP_TARGET	= 192.168.250.3			# IP victim
-MAC_TARGET	= 10:dd:b1:00:00:00		# MAC victim
-FLAG		= 						# Flag optional: -v
+IP_SOURCE	= 192.168.250.4
+MAC_SOURCE	= aa:bb:cc:dd:ee:ff
+IP_TARGET	= 192.168.250.3
+MAC_TARGET	= 10:dd:b1:00:00:00
+FLAG		= -v
 interface	= enp0s3
+IP_HOST		= 192.168.250.4
 
 all: 		$(NAME)
 
@@ -99,6 +100,10 @@ net_vm_a:
 net_vm_b:
 			make net
 			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
+
+net_vm_c:
+			make net
+			sudo ip addr add $(IP_HOST)/24 dev $(INTERFACE)
 
 config:
 			sudo apt update
