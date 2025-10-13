@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 15:36:16 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:05:34 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,15 +94,15 @@ net:
 			sudo ip addr flush dev $(INTERFACE)
 
 net_vm_a:
-			make net
+			@make --no-print-directory net
 			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 net_vm_b:
-			make net
+			@make --no-print-directory net
 			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 net_vm_c:
-			make net
+			@make --no-print-directory net
 			sudo ip addr add $(IP_HOST)/24 dev $(INTERFACE)
 
 config:
@@ -113,7 +113,7 @@ config:
 run_vm_a:
 			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
 			ping -c $(IP_TARGET)
-			make config
+			@make --no-print-directory config
 			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
 			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
 			sudo tcpdump -vv -i $(INTERFACE) arp
@@ -143,7 +143,7 @@ git:
 			@make --no-print-directory fclean
 			@git add .
 			@git status
-			@echo "$(BPURPLE)Choose the commit type:"; \
+			echo "$(BPURPLE)Choose the commit type:"; \
 			echo "$(BYELLOW)1. feat: $(WHITE)Adds a new feature to your codebase"; \
 			echo "$(BYELLOW)2. fix: $(WHITE)Solves a problem in your codebase"; \
 			echo "$(BYELLOW)3. docs: $(WHITE)Documentation changes"; \
