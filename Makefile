@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 16:28:15 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/13 16:30:27 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ run_vm_b:
 			watch ip neigh
 
 request:
-			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n
+			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
 			sudo ip neigh flush dev $(INTERFACE)
 			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
 
