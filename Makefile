@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/13 17:50:40 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/14 10:46:44 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,6 +134,12 @@ val:
 			@make --no-print-directory -s re
 			@{ sudo valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
+
+verify_spoof:
+			@echo "$(BYELLOW)Verificando se o spoofing foi bem-sucedido...$(RESET)"
+			@ip neigh show dev $(INTERFACE) | grep $(IP_SOURCE) | grep $(MAC_SOURCE) > /dev/null && \
+			echo "$(BGREEN)✅ Spoofing detectado: IP $(IP_SOURCE) está associado ao MAC falso $(MAC_SOURCE)$(RESET)" || \
+			echo "$(BRED)❌ Spoofing falhou: IP $(IP_SOURCE) ainda está com MAC real$(RESET)"
 
 help:
 			@echo "\n$(YELLOW)Available commands:$(RESET)\n"
