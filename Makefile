@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 18:38:03 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 19:00:30 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ net_vm_a:
 net_vm_b:
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
+			@ping -c 1 $(IP_SOURCE)
 
 config:
 			sudo apt update
@@ -107,11 +108,8 @@ config:
 
 run_vm_a:
 			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
-			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
-			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
 			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
 			sudo tcpdump -vv -i $(INTERFACE) arp
-			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 run_vm_b:
 			@echo "\n$(YELLOW)Configuring VM B...$(RESET)\n"
@@ -119,19 +117,18 @@ run_vm_b:
 
 request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
-			sudo ip neigh flush dev $(INTERFACE)
-			@ping -c 1 $(IP_SOURCE)
 			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE) > /dev/null 2>&1 || true
 			@echo "\n$(BGREEN)Tabela ARP imediatamente apos o ataque:$(RESET)"
 			@echo "------------------------------------------------"
 			@ip neigh show dev $(INTERFACE) | grep --color=always $(IP_SOURCE) || echo "$(BRED)Entrada para $(IP_SOURCE) nao encontrada.$(RESET)"
 			@echo "------------------------------------------------"
 
-
 comp:
 			clear
+			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=
 			@make --no-print-directory -s re
 			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
+			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 val:
 			clear
