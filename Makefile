@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/14 10:46:44 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 18:35:20 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,10 +107,11 @@ config:
 
 run_vm_a:
 			@echo "\n$(YELLOW)Configuring VM A...$(RESET)\n"
-			ping -c 1 $(IP_TARGET)
+			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			ip -4 -o addr show $(INTERFACE) | awk '{print $$4}'
 			@echo "\n$(YELLOW)Starting Packet Capture...$(RESET)\n"
 			sudo tcpdump -vv -i $(INTERFACE) arp
+			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 run_vm_b:
 			@echo "\n$(YELLOW)Configuring VM B...$(RESET)\n"
@@ -119,21 +120,18 @@ run_vm_b:
 request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
 			sudo ip neigh flush dev $(INTERFACE)
+			@ping -c 1 $(IP_SOURCE)
 			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
 
 comp:
 			clear
-			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			@make --no-print-directory -s re
 			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
-			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 val:
 			clear
-			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			@make --no-print-directory -s re
 			@{ sudo valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
-			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 verify_spoof:
 			@echo "$(BYELLOW)Verificando se o spoofing foi bem-sucedido...$(RESET)"
