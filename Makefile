@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 19:00:30 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 20:36:06 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,12 +93,15 @@ net:
 			sudo ip addr flush dev $(INTERFACE)
 
 net_vm_a:
+			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
 			@make --no-print-directory net
 			sudo ip addr add $(IP_SOURCE)/24 dev $(INTERFACE)
 
 net_vm_b:
+			@sudo sysctl -w net.ipv4.neigh.default.delay_first_probe_time=60
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
+			sudo ip neigh flush all
 			@ping -c 1 $(IP_SOURCE)
 
 config:
@@ -117,18 +120,14 @@ run_vm_b:
 
 request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
-			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE) > /dev/null 2>&1 || true
-			@echo "\n$(BGREEN)Tabela ARP imediatamente apos o ataque:$(RESET)"
-			@echo "------------------------------------------------"
-			@ip neigh show dev $(INTERFACE) | grep --color=always $(IP_SOURCE) || echo "$(BRED)Entrada para $(IP_SOURCE) nao encontrada.$(RESET)"
-			@echo "------------------------------------------------"
+			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
+			arp -a
+			@make --no-print-directory verify_spoof
 
 comp:
 			clear
-			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=
 			@make --no-print-directory -s re
 			@{ sudo ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
-			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 
 val:
 			clear
@@ -140,6 +139,13 @@ verify_spoof:
 			@ip neigh show dev $(INTERFACE) | grep $(IP_SOURCE) | grep $(MAC_SOURCE) > /dev/null && \
 			echo "$(BGREEN)✅ Spoofing detectado: IP $(IP_SOURCE) está associado ao MAC falso $(MAC_SOURCE)$(RESET)" || \
 			echo "$(BRED)❌ Spoofing falhou: IP $(IP_SOURCE) ainda está com MAC real$(RESET)"
+
+restore:
+			@echo "\n$(YELLOW)Restaurando configurações de rede...$(RESET)\n"
+			sudo ip addr flush dev $(INTERFACE)
+			sudo ip link set dev $(INTERFACE) down
+			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
+			@echo "$(BGREEN)✅ Configurações de rede restauradas com sucesso!$(RESET)\n"
 
 help:
 			@echo "\n$(YELLOW)Available commands:$(RESET)\n"
