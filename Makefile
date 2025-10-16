@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 18:35:20 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 18:38:03 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,7 +121,12 @@ request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
 			sudo ip neigh flush dev $(INTERFACE)
 			@ping -c 1 $(IP_SOURCE)
-			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
+			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE) > /dev/null 2>&1 || true
+			@echo "\n$(BGREEN)Tabela ARP imediatamente apos o ataque:$(RESET)"
+			@echo "------------------------------------------------"
+			@ip neigh show dev $(INTERFACE) | grep --color=always $(IP_SOURCE) || echo "$(BRED)Entrada para $(IP_SOURCE) nao encontrada.$(RESET)"
+			@echo "------------------------------------------------"
+
 
 comp:
 			clear
