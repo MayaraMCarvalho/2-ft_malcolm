@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/17 11:07:33 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/17 11:14:37 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,7 @@ net_vm_b:
 			@sudo sysctl -w net.ipv4.neigh.default.delay_first_probe_time=60
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
-			sudo ip neigh flush all
+			sudo ip neigh flush dev $(INTERFACE)
 
 config:
 			sudo apt update
