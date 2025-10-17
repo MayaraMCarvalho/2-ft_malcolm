@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/17 10:56:05 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/17 11:07:33 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ net:
 			@echo "\n$(YELLOW)Setting up network interface...$(RESET)\n"
 			sudo ip link set dev $(INTERFACE) up
 			sudo ip addr flush dev $(INTERFACE)
+			@sleep 0.5
 
 net_vm_a:
 			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
