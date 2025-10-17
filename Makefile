@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 20:36:06 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 21:03:39 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ OBJS		= $(addprefix $(OBJS_PATH)/, $(SRCS:.c=.o))
 IP_SOURCE	= 192.168.250.2
 MAC_SOURCE	= aa:bb:cc:dd:ee:ff
 IP_TARGET	= 192.168.250.3
-MAC_TARGET	= 10:dd:b1:00:00:00
+MAC_TARGET	= ff:ff:ff:ff:ff:ff
 FLAG		= -v
 INTERFACE	= enp0s3
 

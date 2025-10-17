@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/09/30 16:52:13 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:05:28 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	print_request(t_arp *arp)
 
 	printf("\tmac address of request: ");
 	print_address(arp->sender_mac, 0, 5, ':');
+	g_data.info.target_mac = arp->sender_mac;
 
 	printf("\tIP address of request: ");
 	print_address(arp->sender_ip, 0, 3, '.');
