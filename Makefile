@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/17 11:14:37 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/17 11:30:48 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,8 +90,8 @@ re:			fclean all
 net:
 			@echo "\n$(YELLOW)Setting up network interface...$(RESET)\n"
 			sudo ip link set dev $(INTERFACE) up
-			sudo ip addr flush dev $(INTERFACE)
 			@sleep 0.5
+			sudo ip addr flush dev $(INTERFACE)
 
 net_vm_a:
 			@sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=8
@@ -103,6 +103,7 @@ net_vm_b:
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
 			sudo ip neigh flush dev $(INTERFACE)
+			@ping -c 1 $(IP_SOURCE) > /dev/null 2>&1 || true
 
 config:
 			sudo apt update
