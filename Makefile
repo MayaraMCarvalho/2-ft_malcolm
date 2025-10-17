@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 21:03:39 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/16 21:51:40 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,8 +120,8 @@ run_vm_b:
 
 request:
 			@echo "\n$(YELLOW)Sending ARP Request...$(RESET)\n"
-			sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE)
-			arp -a
+			@-sudo arping -c 1 -I $(INTERFACE) $(IP_SOURCE) > /dev/null 2>&1 || true
+			@arp -a
 			@make --no-print-directory verify_spoof
 
 comp:
@@ -135,10 +135,10 @@ val:
 			@{ sudo valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(IP_SOURCE) $(MAC_SOURCE) $(IP_TARGET) $(MAC_TARGET) $(FLAG); } || true
 
 verify_spoof:
-			@echo "$(BYELLOW)Verificando se o spoofing foi bem-sucedido...$(RESET)"
+			@echo "\n$(BYELLOW)Verificando se o spoofing foi bem-sucedido...$(RESET)"
 			@ip neigh show dev $(INTERFACE) | grep $(IP_SOURCE) | grep $(MAC_SOURCE) > /dev/null && \
 			echo "$(BGREEN)✅ Spoofing detectado: IP $(IP_SOURCE) está associado ao MAC falso $(MAC_SOURCE)$(RESET)" || \
-			echo "$(BRED)❌ Spoofing falhou: IP $(IP_SOURCE) ainda está com MAC real$(RESET)"
+			echo "$(BRED)❌ Spoofing falhou: IP $(IP_SOURCE) ainda está com MAC real$(RESET)\n"
 
 restore:
 			@echo "\n$(YELLOW)Restaurando configurações de rede...$(RESET)\n"
