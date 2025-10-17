@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/16 21:51:40 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/17 10:56:05 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,6 @@ net_vm_b:
 			@make --no-print-directory net
 			sudo ip addr add $(IP_TARGET)/24 dev $(INTERFACE)
 			sudo ip neigh flush all
-			@ping -c 1 $(IP_SOURCE)
 
 config:
 			sudo apt update
@@ -137,7 +136,7 @@ val:
 verify_spoof:
 			@echo "\n$(BYELLOW)Verificando se o spoofing foi bem-sucedido...$(RESET)"
 			@ip neigh show dev $(INTERFACE) | grep $(IP_SOURCE) | grep $(MAC_SOURCE) > /dev/null && \
-			echo "$(BGREEN)✅ Spoofing detectado: IP $(IP_SOURCE) está associado ao MAC falso $(MAC_SOURCE)$(RESET)" || \
+			echo "$(BGREEN)✅ Spoofing detectado: IP $(IP_SOURCE) está associado ao MAC falso $(MAC_SOURCE)$(RESET)\n" || \
 			echo "$(BRED)❌ Spoofing falhou: IP $(IP_SOURCE) ainda está com MAC real$(RESET)\n"
 
 restore:
