@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:05:57 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 17:43:32 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:35:21 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@
 # include <sys/socket.h> // sendto, recvfrom, socket, setsockopt
 # include <linux/if_arp.h>
 #include <net/ethernet.h>
-
-// #include <stdlib.h>
-// #include <sys/types.h>
-// #include <sys/ioctl.h>
-// #include <bits/sigaction.h>
-// #include <linux/if_ether.h>
-// #include <netinet/ip.h>
-// #include <bits/ioctls.h>
 
 # include "libft.h"
 # include "colors.h"
@@ -136,6 +128,5 @@ int		validate_data(int argc, char *argv[]);
 int		validate_ip(const char *ip);
 int		validate_mac(const char *mac);
 int		validate_flag(const char *flag);
-int		validate_spoofed_ip(void);
 
 #endif

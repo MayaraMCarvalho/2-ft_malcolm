@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/13 17:47:43 by macarval         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:34:37 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,6 @@ void	attack(void)
 
 void	connection(void)
 {
-	if (!validate_spoofed_ip())
-		fatal_error("Spoofed IP does not belong to this VM!");
-
 	g_data.info.sock_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
 	if (g_data.info.sock_fd < 0)
 		fatal_error("Failed to get socket descriptor!");
