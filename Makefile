@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/31 10:17:27 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/31 10:19:27 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,7 +150,7 @@ restore:
 
 pull:
 			@sudo dhclient enp0s8
-			@git pull
+			git pull
 			@echo "$(BGREEN)✅ Repositório atualizado com sucesso!$(RESET)\n"
 
 help:
