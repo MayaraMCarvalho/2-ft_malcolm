@@ -6,7 +6,7 @@
 #    By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:05:49 by macarval          #+#    #+#              #
-#    Updated: 2025/10/17 11:30:48 by macarval         ###   ########.fr        #
+#    Updated: 2025/10/31 10:16:07 by macarval         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,6 +147,11 @@ restore:
 			sudo ip link set dev $(INTERFACE) down
 			sudo sysctl -w net.ipv4.conf.enp0s3.arp_ignore=0
 			@echo "$(BGREEN)✅ Configurações de rede restauradas com sucesso!$(RESET)\n"
+
+pull:
+			@sudo dhclient enp0s8
+			git pull
+			@echo "$(BGREEN)✅ Repositório atualizado com sucesso!$(RESET)\n"
 
 help:
 			@echo "\n$(YELLOW)Available commands:$(RESET)\n"
