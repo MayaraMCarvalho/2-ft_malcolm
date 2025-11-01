@@ -6,7 +6,7 @@
 /*   By: macarval <macarval@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:03:42 by macarval          #+#    #+#             */
-/*   Updated: 2025/10/16 21:39:31 by macarval         ###   ########.fr       */
+/*   Updated: 2025/11/01 11:31:43 by macarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	received_request(ssize_t bytes, char *buffer)
 			&& memcmp(arp->sender_ip, g_data.info.target_ip, INET4_LEN) == 0
 			&& memcmp(arp->target_ip, g_data.info.source_ip, INET4_LEN) == 0)
 		{
+			ft_memcpy(g_data.info.target_mac, arp->sender_mac, ETH_ALEN);
+			
 			if (g_data.info.has_flag)
 			{
 				print_log("***Packet received***", "Raw packet dump", bytes, buffer);
@@ -95,7 +97,6 @@ void	print_request(t_arp *arp)
 
 	printf("\tmac address of request: ");
 	print_address(arp->sender_mac, 0, 5, ':');
-	ft_memcpy(g_data.info.target_mac, arp->sender_mac, ETH_ALEN);
 
 	printf("\tIP address of request: ");
 	print_address(arp->sender_ip, 0, 3, '.');
