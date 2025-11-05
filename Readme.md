@@ -60,7 +60,7 @@ O **ft_malcolm** é um projeto da 42 que simula um sniffer de rede. O principal 
 1. Clone o repositório:
 
 ``` bash
-git clone https://[URL_DO_SEU_REPOSITORIO] ft_malcolm
+git clone https://https://github.com/MayaraMCarvalho/2-ft_malcolm/ ft_malcolm
 cd ft_malcolm
 ```
 
