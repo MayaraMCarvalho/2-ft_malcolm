@@ -11,11 +11,11 @@ Este projeto é uma introdução à segurança de rede, focado na interceptaçã
 ## 📜 Índice
 
 * [Visão Geral](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#%EF%B8%8F-vis%C3%A3o-geral)
-* [Funcionalidades](#-funcionalidades)
-* [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-* [Instalação e Setup](#-instalação-e-setup)
-* [Modo de Uso](#-modo-de-uso)
-* [Autor](#-autor)
+* [Funcionalidades](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-funcionalidade)
+* [Tecnologias Utilizadas](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#%EF%B8%8F-tecnologias-utilizadas)
+* [Instalação e Setup](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-instala%C3%A7%C3%A3o-e-setup)
+* [Modo de Uso](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-modo-de-uso)
+* [Autora](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-autora)
 
 ---
 
@@ -47,7 +47,7 @@ O **ft_malcolm** é um projeto da 42 que simula um sniffer de rede. O principal 
 
 ---
 
-> ## ⚠️ Aviso Legal
+## ⚠️ Aviso Legal
 
 > Usar spoofing de ARP ou sniffeing sem permissão é uma violação das políticas de segurança e pode ser ilegal. É crucial usar esta ferramenta apenas em ambientes controlados, como uma rede de laboratório pessoal(VMs), para fins educacionais ou de teste.
 
