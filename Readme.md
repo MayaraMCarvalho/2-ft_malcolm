@@ -41,9 +41,9 @@ O **ft_malcolm** é um projeto da 42 que simula um sniffer de rede. O principal 
 ## 🛠️ Tecnologias Utilizadas
 
 * **Linguagem C**: Para manipulação de baixo nível da rede.
-* **Raw Sockets (Socket Bruto)**: Para capturar pacotes diretamente da camada de enlace (L2).
+* **`Raw Sockets` (Socket Bruto)**: Para capturar pacotes diretamente da camada de enlace (L2).
 * **Linux Networking**: Uso das bibliotecas `<sys/socket.h>`, `<netinet/if_ether.h>`, `<arpa/inet.h>`.
-* **Makefile**: Para compilação e gerenciamento de regras de teste.
+* **`Makefile`**: Para compilação e gerenciamento de regras de teste.
 
 ---
 
