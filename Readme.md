@@ -10,7 +10,7 @@ Este projeto é uma introdução à segurança de rede, focado na interceptaçã
 
 ## 📜 Índice
 
-* [Visão Geral](https://github.com/MayaraMCarvalho/2-ft_malcolm/edit/master/Readme.md#%EF%B8%8F-vis%C3%A3o-geral)
+* [Visão Geral](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#%EF%B8%8F-vis%C3%A3o-geral)
 * [Funcionalidades](#-funcionalidades)
 * [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 * [Instalação e Setup](#-instalação-e-setup)
