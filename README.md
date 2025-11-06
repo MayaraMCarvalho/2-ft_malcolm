@@ -1,6 +1,6 @@
 # 🕵️ ft_malcolm (42 São Paulo)
 
-Available in: [🇺🇸 English](Readme.en.md)
+Available in: [🇺🇸 English](README.en.md)
 
 ![Static Badge](https://img.shields.io/badge/C-c?style=plastic&label=Linguagem)
 
