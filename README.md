@@ -10,12 +10,12 @@ Este projeto é uma introdução à segurança de rede, focado na interceptaçã
 
 ## 📜 Índice
 
-* [Visão Geral](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#%EF%B8%8F-vis%C3%A3o-geral)
-* [Funcionalidades](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-funcionalidade)
-* [Tecnologias Utilizadas](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#%EF%B8%8F-tecnologias-utilizadas)
-* [Instalação e Setup](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-instala%C3%A7%C3%A3o-e-setup)
-* [Modo de Uso](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-modo-de-uso)
-* [Autora](https://github.com/MayaraMCarvalho/2-ft_malcolm/tree/master?tab=readme-ov-file#-autora)
+* [Visão Geral](#%EF%B8%8F-vis%C3%A3o-geral)
+* [Funcionalidades](#-funcionalidade)
+* [Tecnologias Utilizadas](#%EF%B8%8F-tecnologias-utilizadas)
+* [Instalação e Setup](#-instala%C3%A7%C3%A3o-e-setup)
+* [Modo de Uso](#-modo-de-uso)
+* [Autora](#-autora)
 
 ---
 
@@ -136,7 +136,8 @@ make request
 ---
 
 ## 👩🏻 Autora
-[Mayara Carvalho / macarval]
+**Mayara Carvalho**
+<br>
+[:octocat: @MayaraMCarvalho](https://github.com/MayaraMCarvalho) | 42 Login: `macarval`
 
 ---
-

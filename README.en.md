@@ -60,5 +60,82 @@ This project is an introduction to network security, focused on intercepting and
 1. Clone the repository:
 
 ``` bash
-git clone [https://github.com/MayaraMCarvalho/2-ft_malcolm/](https://github.com/MayaraMCarvalho/2-ft_malcolm/) ft_malcolm
+git clone https://github.com/MayaraMCarvalho/2-ft_malcolm/ ft_malcolm
 cd ft_malcolm
+```
+
+2. Compile the project: The Makefile contains the rules for compiling the program.
+
+```bash
+make comp
+```
+> To compile with valgrind, use: make val
+> To clean the binaries, use: make fclean
+
+---
+
+## 🔧 Usage
+To test safely, use a completely isolated environment via VirtualBox's **Internal Network** between **two VMs**. This prevents sensitive data exposure and avoids any risk of sanctions.
+
+### VirtualBox Preparation (GUI) — configure isolated network
+
+1. In VirtualBox, select a VM → **Settings → Network**.
+2. For **Adapter 1**:
+   * Check **Enable Network Adapter**.
+   * In **Attached to:** choose **Internal Network**.
+   * In **Name:** enter a shared name for both VMs, e.g., `rede_ft_malcolm`.
+   * Optional: check **Cable connected**.
+3. Repeat for the **second VM**: set **Adapter 1** to the same name `rede_ft_malcolm`.
+4. **Important**: do not configure Bridged mode for these VMs; keep Adapter 2 disabled (or set to NAT only if temporary internet access is needed, but keep disabled for isolated testing).
+5. Start both VMs and open two terminals in each.
+
+### VM IP Configuration (manual, safe mode)
+
+#### 1. On **VM A (sniffer)** — execute:
+
+```bash
+make net_vm_a
+```
+
+#### 2. On **VM B (generator)** — execute:
+
+```bash
+make net_vm_b
+```
+#### 3. On **VM A (sniffer)** — execute:
+
+* In terminal 1 of VM A
+```bash
+make run_vm_a
+```
+> Leave open — it will show ARP broadcast who-has.
+
+* In terminal 2 of VM A
+```bash
+make comp
+```
+or to run with valgrind
+```bash
+make val
+```
+
+#### 4. On **VM B (generator)** — execute:
+
+* In terminal 1 of VM B
+```bash
+make run_vm_b
+```
+
+* In terminal 2 of VM B
+```bash
+make request
+```
+
+---
+
+## 👩🏻 Author
+**Mayara Carvalho**
+<br>
+[:octocat: @MayaraMCarvalho](https://github.com/MayaraMCarvalho) | 42 Login: `macarval`
+
+---
