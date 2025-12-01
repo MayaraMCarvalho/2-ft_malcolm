@@ -10,9 +10,9 @@ This project is an introduction to network security, focused on intercepting and
 
 ## 📜 Table of Contents
 
-* [Overview](#-overview)
+* [Overview](#%EF%B8%8F-overview)
 * [Features](#-features)
-* [Tech Stack Used](#-tech-stack-used)
+* [Tech Stack Used](#%EF%B8%8F-tech-stack-used)
 * [Installation and Setup](#-installation-and-setup)
 * [Usage](#-usage)
 * [Author](#-author)
