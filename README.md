@@ -4,6 +4,10 @@ Available in: [🇺🇸 English](README.en.md)
 
 ![Static Badge](https://img.shields.io/badge/C-c?style=plastic&label=Linguagem)
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/039a1079-c4dc-4d3a-8b57-c81b7a541d52" alt="common_coren" width="200">
+</div>
+
 Este projeto é uma introdução à segurança de rede, focado na interceptação e análise de pacotes ARP (Address Resolution Protocol). O projeto consiste em um sniffer de rede desenvolvido em C, capaz de capturar e exibir tráfego ARP em tempo real, demonstrando a base para ataques como Man-in-the-Middle (MITM).
 
 ---
